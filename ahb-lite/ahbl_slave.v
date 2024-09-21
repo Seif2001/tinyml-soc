@@ -18,7 +18,7 @@ module ahbl_slave #(parameter ID = 32'hABCD_EF00) (
     reg [2:0]  HSIZE_d;
     reg        HWRITE_d;
     reg        HSEL_d;
-    reg [8:0]  memory [2:0];
+    //reg [7:0]  memory [2**13-1:0];
     always @(posedge HCLK or negedge HRESETn) begin
         if(HRESETn == 1'b0) begin
             HADDR_d     <= 0;

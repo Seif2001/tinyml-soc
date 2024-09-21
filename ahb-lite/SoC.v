@@ -1,6 +1,9 @@
 module SoC (
     input wire HCLK,
-    input wire HRESETn
+    input wire HRESETn,
+    output reg [31:0] registers_0,
+    output reg [31:0] registers_1,
+    output reg [31:0] registers_2
 );
 
     wire [31:0] HADDR;
@@ -11,9 +14,9 @@ module SoC (
     wire        HREADY;
     wire [31:0] HRDATA;
 
-    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA;
-    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL;
-    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT;
+    wire [31:0] P0_HRDATA, S1_HRDATA, S2_HRDATA;
+    wire        P0_HSEL, S0_HSEL, S1_HSEL;
+    wire        P0_HREADYOUT, S0_HREADYOUT, S1_HREADYOUT;
 
     ahbl_master M (
         .HCLK(HCLK),
@@ -28,7 +31,25 @@ module SoC (
         .HRDATA(HRDATA)
     );
 
-    ahbl_slave #(.ID(32'hABCD_EF00)) S0 (
+    ahbl_peripheral #(.ID(32'hABCD_EF00)) P0 (
+        .HCLK(HCLK),
+        .HRESETn(HRESETn),
+
+        .HADDR(HADDR),
+        .HTRANS(HTRANS),
+        .HWRITE(HWRITE),
+        .HREADY(HREADY),
+        .HSEL(P0_HSEL),
+        .HWDATA(HWDATA),
+        .HREADYOUT(P0_HREADYOUT),
+        .HRDATA(P0_HRDATA),
+        .register_0(registers_0),
+        .register_1(registers_1),
+        .register_2(registers_2)
+    );
+
+
+    ahbl_slave #(.ID(32'hABCD_EF01)) S1 (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -43,7 +64,7 @@ module SoC (
         .HRDATA(S0_HRDATA)
     );
 
-    ahbl_slave #(.ID(32'hABCD_EF01)) S1 (
+    ahbl_slave #(.ID(32'hABCD_EF02)) S2 (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -58,37 +79,7 @@ module SoC (
         .HRDATA(S1_HRDATA)
     );
 
-    ahbl_slave #(.ID(32'hABCD_EF02)) S2 (
-        .HCLK(HCLK),
-        .HRESETn(HRESETn),
-
-        .HADDR(HADDR),
-        .HTRANS(HTRANS),
-        .HSIZE(HSIZE),
-        .HWRITE(HWRITE),
-        .HREADY(HREADY),
-        .HSEL(S2_HSEL),
-        .HWDATA(HWDATA),
-        .HREADYOUT(S2_HREADYOUT),
-        .HRDATA(S2_HRDATA)
-    );
-
-    ahbl_slave #(.ID(32'hABCD_EF03)) S3 (
-        .HCLK(HCLK),
-        .HRESETn(HRESETn),
-
-        .HADDR(HADDR),
-        .HTRANS(HTRANS),
-        .HSIZE(HSIZE),
-        .HWRITE(HWRITE),
-        .HREADY(HREADY),
-        .HSEL(S3_HSEL),
-        .HWDATA(HWDATA),
-        .HREADYOUT(S3_HREADYOUT),
-        .HRDATA(S3_HRDATA)
-    );
-
-    ahbl_splitter_4 S (
+    ahbl_splitter_3 S (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -105,13 +96,9 @@ module SoC (
         .S1_HRDATA(S1_HRDATA),
         .S1_HREADYOUT(S1_HREADYOUT),
 
-        .S2_HSEL(S2_HSEL),
-        .S2_HRDATA(S2_HRDATA),
-        .S2_HREADYOUT(S2_HREADYOUT),
-
-        .S3_HSEL(S3_HSEL),
-        .S3_HRDATA(S3_HRDATA),
-        .S3_HREADYOUT(S3_HREADYOUT)
+        .P0_HSEL(P0_HSEL),
+        .P0_HRDATA(P0_HRDATA),
+        .P0_HREADYOUT(P0_HREADYOUT)
 
     );
 endmodule

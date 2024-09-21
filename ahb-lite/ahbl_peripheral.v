@@ -9,14 +9,17 @@ module ahbl_peripheral #(parameter ID = 32'hABCD_EF00) (
     input   wire        HSEL,
     input   wire [31:0] HWDATA,
     output  wire        HREADYOUT,
-    output  wire [31:0] HRDATA
+    output  reg [31:0] HRDATA,
+    output  reg [31:0] register_0,
+    output  reg [31:0] register_1,
+    output  reg [31:0] register_2
     
 );
     reg [31:0] HADDR_d;
     reg [1:0]  HTRANS_d;
     reg        HWRITE_d;
     reg        HSEL_d;
-    reg [31:0] registers [2:0];
+    reg [31:0] registers_d [2:0];
     always @(posedge HCLK or negedge HRESETn) begin
         if(HRESETn == 1'b0) begin
             HADDR_d     <= 0;
@@ -35,14 +38,17 @@ module ahbl_peripheral #(parameter ID = 32'hABCD_EF00) (
     always @(posedge HCLK) begin
         if(HRESETn & ahbl_we)
             if(HWRITE_d) begin
-                $display("Slave %h: WRITE 0x%8x to 0x%8x", ID, HWDATA, HADDR_d);
-                registers[HADDR_d[1:0]] <= HWDATA;
+                $display("Peripheral %h: WRITE 0x%8x to 0x%32b to register 0b%2b", ID, HWDATA, HADDR_d, HADDR_d[25:24]);
+                registers_d[HADDR_d[25:24]] <= HWDATA;
             end else begin
-                $display("Slave %h: READ 0x%8x from 0x%8x", ID, registers[HADDR_d[1:0]], HADDR_d);
-                HRDATA <= registers[HADDR_d[27:26]];
+                $display("Peripheral %h: READ 0x%8x from 0x%32b from register 0b%2b", ID, registers_d[HADDR_d[25:24]], HADDR_d, HADDR_d[25:24]);
+                HRDATA <= registers_d[HADDR_d[25:24]];
             end
 
     end
 
     assign HREADYOUT = 1;
+    assign register_0 = registers_d[0];
+    assign register_1 = registers_d[1];
+    assign register_2 = registers_d[2];
 endmodule

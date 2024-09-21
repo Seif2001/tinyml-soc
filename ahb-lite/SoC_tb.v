@@ -1,6 +1,7 @@
 module SoC_tb;
     reg         HCLK;
     reg         HRESETn;
+    wire
     
 
     // clock
@@ -25,7 +26,8 @@ module SoC_tb;
 
     SoC MUV (
         .HCLK(HCLK),
-        .HRESETn(HRESETn)
+        .HRESETn(HRESETn),
+        .registers({registers[0], registers[1], registers[2]})
     );
 
 endmodule

@@ -1,7 +1,7 @@
-module ahbl_splitter_4 #(parameter  S0=32'h00_000000, 
-                                    S1=32'h20_000000, 
-                                    S2=32'h40_000000, 
-                                    S3=32'h80_000000) 
+module ahbl_splitter_3 #(parameter  S0=4'b0000, 
+                                    S1=4'b0010, 
+                                    P0=4'b0100
+                                    ) 
 (
     input   wire        HCLK,
     input   wire        HRESETn,
@@ -12,6 +12,11 @@ module ahbl_splitter_4 #(parameter  S0=32'h00_000000,
     output  wire        HREADY,
     output  wire [31:0] HRDATA,
 
+    // Peripheral 2
+    output  wire        P0_HSEL,
+    input   wire [31:0] P0_HRDATA,
+    input   wire        P0_HREADYOUT,
+
     // SLAVE 0
     output  wire        S0_HSEL,
     input   wire [31:0] S0_HRDATA,
@@ -20,34 +25,24 @@ module ahbl_splitter_4 #(parameter  S0=32'h00_000000,
     // SLAVE 1
     output  wire        S1_HSEL,
     input   wire [31:0] S1_HRDATA,
-    input   wire        S1_HREADYOUT,
+    input   wire        S1_HREADYOUT
 
-    // SLAVE 2
-    output  wire        S2_HSEL,
-    input   wire [31:0] S2_HRDATA,
-    input   wire        S2_HREADYOUT,
-
-    // Slave 3
-    output  wire        S3_HSEL,
-    input   wire [31:0] S3_HRDATA,
-    input   wire        S3_HREADYOUT
+    
 );
 
     // The Decoder
-    reg [3:0] sel;
-    reg [3:0] sel_d;
+    reg [2:0] sel;
+    reg [2:0] sel_d;
     always @*
-        case(HADDR)
-            S0: sel = 4'b0001;
-            S1: sel = 4'b0010;
-            S2: sel = 4'b0100;
-            S3: sel = 4'b1000;
-            default: sel = 4'b0000;
+        case(HADDR[31:28])
+            S0: sel = 3'b001;
+            S1: sel = 3'b010;
+            P0: sel = 3'b100;
+            default: sel = 3'b000;
         endcase
     assign S0_HSEL = sel[0];
     assign S1_HSEL = sel[1];
-    assign S2_HSEL = sel[2];
-    assign S3_HSEL = sel[3];
+    assign P0_HSEL = sel[2];
 
     // The MUX
     always@(posedge HCLK or negedge HRESETn) begin
@@ -60,14 +55,12 @@ module ahbl_splitter_4 #(parameter  S0=32'h00_000000,
 
     assign HREADY =   (sel_d[0])  ?   S0_HREADYOUT :
                         (sel_d[1])  ?   S1_HREADYOUT :
-                        (sel_d[2])  ?   S2_HREADYOUT :
-                        (sel_d[3])  ?   S3_HREADYOUT :
+                        (sel_d[2])  ?   P0_HREADYOUT :
                         1'b1;
 
     assign HRDATA =   (sel_d[0])  ?   S0_HRDATA :
                         (sel_d[1])  ?   S1_HRDATA :
-                        (sel_d[2])  ?   S2_HRDATA :
-                        (sel_d[3])  ?   S3_HRDATA :
+                        (sel_d[2])  ?   P0_HRDATA :
                         32'hBADDBEEF;
 
 endmodule

@@ -1,0 +1,585 @@
+$date
+	Sat Sep 21 19:57:52 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module SoC_tb $end
+$var reg 1 ! HCLK $end
+$var reg 1 " HRESETn $end
+$scope module MUV $end
+$var wire 1 ! HCLK $end
+$var wire 1 " HRESETn $end
+$var wire 1 # P0_HREADYOUT $end
+$var wire 1 $ S0_HREADYOUT $end
+$var wire 32 % S1_HRDATA [31:0] $end
+$var wire 1 & S1_HREADYOUT $end
+$var wire 1 ' S1_HSEL $end
+$var wire 1 ( S0_HSEL $end
+$var wire 1 ) S0_HRDATA $end
+$var wire 1 * P0_HSEL $end
+$var wire 32 + P0_HRDATA [31:0] $end
+$var wire 1 , HWRITE $end
+$var wire 32 - HWDATA [31:0] $end
+$var wire 2 . HTRANS [1:0] $end
+$var wire 3 / HSIZE [2:0] $end
+$var wire 1 0 HREADY $end
+$var wire 32 1 HRDATA [31:0] $end
+$var wire 32 2 HADDR [31:0] $end
+$scope module M $end
+$var wire 1 ! HCLK $end
+$var wire 1 " HRESETn $end
+$var wire 1 0 HREADY $end
+$var wire 32 3 HRDATA [31:0] $end
+$var reg 32 4 HADDR [31:0] $end
+$var reg 3 5 HSIZE [2:0] $end
+$var reg 2 6 HTRANS [1:0] $end
+$var reg 32 7 HWDATA [31:0] $end
+$var reg 1 , HWRITE $end
+$scope task ahbl_read $end
+$var reg 32 8 addr [31:0] $end
+$var reg 3 9 size [2:0] $end
+$upscope $end
+$scope task ahbl_w_write $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; data [31:0] $end
+$var reg 3 < size [2:0] $end
+$upscope $end
+$upscope $end
+$scope module P0 $end
+$var wire 32 = HADDR [31:0] $end
+$var wire 1 ! HCLK $end
+$var wire 1 # HREADYOUT $end
+$var wire 1 " HRESETn $end
+$var wire 2 > HTRANS [1:0] $end
+$var wire 32 ? HWDATA [31:0] $end
+$var wire 1 , HWRITE $end
+$var wire 1 @ ahbl_we $end
+$var wire 1 * HSEL $end
+$var wire 1 0 HREADY $end
+$var reg 32 A HADDR_d [31:0] $end
+$var reg 32 B HRDATA [31:0] $end
+$var reg 1 C HSEL_d $end
+$var reg 2 D HTRANS_d [1:0] $end
+$var reg 1 E HWRITE_d $end
+$upscope $end
+$scope module S $end
+$var wire 32 F HADDR [31:0] $end
+$var wire 1 ! HCLK $end
+$var wire 1 " HRESETn $end
+$var wire 2 G HTRANS [1:0] $end
+$var wire 32 H P0_HRDATA [31:0] $end
+$var wire 1 # P0_HREADYOUT $end
+$var wire 32 I S0_HRDATA [31:0] $end
+$var wire 1 $ S0_HREADYOUT $end
+$var wire 32 J S1_HRDATA [31:0] $end
+$var wire 1 & S1_HREADYOUT $end
+$var wire 1 ' S1_HSEL $end
+$var wire 1 ( S0_HSEL $end
+$var wire 1 * P0_HSEL $end
+$var wire 1 0 HREADY $end
+$var wire 32 K HRDATA [31:0] $end
+$var reg 3 L sel [2:0] $end
+$var reg 3 M sel_d [2:0] $end
+$upscope $end
+$scope module S1 $end
+$var wire 32 N HADDR [31:0] $end
+$var wire 1 ! HCLK $end
+$var wire 32 O HRDATA [31:0] $end
+$var wire 1 0 HREADY $end
+$var wire 1 $ HREADYOUT $end
+$var wire 1 " HRESETn $end
+$var wire 1 ( HSEL $end
+$var wire 3 P HSIZE [2:0] $end
+$var wire 2 Q HTRANS [1:0] $end
+$var wire 32 R HWDATA [31:0] $end
+$var wire 1 , HWRITE $end
+$var wire 1 S ahbl_we $end
+$var reg 32 T HADDR_d [31:0] $end
+$var reg 1 U HSEL_d $end
+$var reg 3 V HSIZE_d [2:0] $end
+$var reg 2 W HTRANS_d [1:0] $end
+$var reg 1 X HWRITE_d $end
+$upscope $end
+$scope module S2 $end
+$var wire 32 Y HADDR [31:0] $end
+$var wire 1 ! HCLK $end
+$var wire 32 Z HRDATA [31:0] $end
+$var wire 1 0 HREADY $end
+$var wire 1 & HREADYOUT $end
+$var wire 1 " HRESETn $end
+$var wire 1 ' HSEL $end
+$var wire 3 [ HSIZE [2:0] $end
+$var wire 2 \ HTRANS [1:0] $end
+$var wire 32 ] HWDATA [31:0] $end
+$var wire 1 , HWRITE $end
+$var wire 1 ^ ahbl_we $end
+$var reg 32 _ HADDR_d [31:0] $end
+$var reg 1 ` HSEL_d $end
+$var reg 3 a HSIZE_d [2:0] $end
+$var reg 2 b HTRANS_d [1:0] $end
+$var reg 1 c HWRITE_d $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module SoC_tb $end
+$scope module MUV $end
+$scope module M $end
+$scope task ahbl_read $end
+$upscope $end
+$scope task ahbl_w_write $end
+$upscope $end
+$upscope $end
+$scope module P0 $end
+$upscope $end
+$scope module S $end
+$upscope $end
+$scope module S1 $end
+$upscope $end
+$scope module S2 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module ahbl_master_tb $end
+$var wire 1 d HWRITE $end
+$var wire 32 e HWDATA [31:0] $end
+$var wire 2 f HTRANS [1:0] $end
+$var wire 3 g HSIZE [2:0] $end
+$var wire 32 h HADDR [31:0] $end
+$var reg 1 i HCLK $end
+$var reg 32 j HRDATA [31:0] $end
+$var reg 1 k HREADY $end
+$var reg 1 l HRESETn $end
+$scope module MASTER $end
+$var wire 1 i HCLK $end
+$var wire 32 m HRDATA [31:0] $end
+$var wire 1 k HREADY $end
+$var wire 1 l HRESETn $end
+$var reg 32 n HADDR [31:0] $end
+$var reg 3 o HSIZE [2:0] $end
+$var reg 2 p HTRANS [1:0] $end
+$var reg 32 q HWDATA [31:0] $end
+$var reg 1 d HWRITE $end
+$scope task ahbl_read $end
+$var reg 32 r addr [31:0] $end
+$var reg 3 s size [2:0] $end
+$upscope $end
+$scope task ahbl_w_write $end
+$var reg 32 t addr [31:0] $end
+$var reg 32 u data [31:0] $end
+$var reg 3 v size [2:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx v
+bx u
+bx t
+bx s
+bx r
+bx q
+bx p
+bx o
+bx n
+b10111010110111011011111011101111 m
+0l
+1k
+b10111010110111011011111011101111 j
+0i
+bx h
+bx g
+bx f
+bx e
+xd
+0c
+b0 b
+b0 a
+0`
+b0 _
+0^
+bx ]
+bx \
+bx [
+b10101011110011011110111100000010 Z
+bx Y
+0X
+b0 W
+b0 V
+0U
+b0 T
+0S
+bx R
+bx Q
+bx P
+b10101011110011011110111100000001 O
+bx N
+b0 M
+bx L
+b10111010110111011011111011101111 K
+b10101011110011011110111100000010 J
+b1 I
+bx H
+bx G
+bx F
+0E
+b0 D
+0C
+bx B
+b0 A
+0@
+bx ?
+bx >
+bx =
+bx <
+bx ;
+bx :
+bx 9
+bx 8
+bx 7
+bx 6
+bx 5
+bx 4
+b10111010110111011011111011101111 3
+bx 2
+b10111010110111011011111011101111 1
+10
+bx /
+bx .
+bx -
+x,
+bx +
+x*
+1)
+x(
+x'
+1&
+b10101011110011011110111100000010 %
+1$
+1#
+0"
+0!
+$end
+#5
+1i
+1!
+#10
+0i
+0!
+#15
+1i
+1!
+#20
+0i
+0!
+#25
+1i
+1!
+#30
+0i
+0!
+#35
+1i
+1!
+#40
+0i
+0!
+#45
+1i
+1!
+#50
+0i
+0!
+#55
+1"
+1i
+1!
+#60
+0i
+0!
+#65
+x^
+xS
+x@
+x`
+xc
+bx a
+bx b
+bx _
+xU
+xX
+bx V
+bx W
+bx T
+xC
+xE
+bx D
+bx A
+1i
+1!
+#70
+0i
+0!
+#75
+1i
+1!
+#80
+0i
+0!
+#85
+1i
+1!
+#90
+0i
+0!
+#95
+1i
+1!
+#100
+0i
+0!
+#105
+1l
+1i
+1!
+#110
+0i
+0!
+#115
+1i
+1!
+#120
+0i
+0!
+#125
+1i
+1!
+#130
+0i
+0!
+#135
+1i
+1!
+#140
+0i
+0!
+#145
+1i
+1!
+#150
+0i
+0!
+#155
+1i
+1!
+b10 <
+b10010001101000101011001111000 ;
+b1000001000000000000000000000000 :
+#156
+0(
+0'
+1*
+b100 L
+1,
+b10 /
+b10 5
+b10 P
+b10 [
+b1000001000000000000000000000000 2
+b1000001000000000000000000000000 4
+b1000001000000000000000000000000 =
+b1000001000000000000000000000000 F
+b1000001000000000000000000000000 N
+b1000001000000000000000000000000 Y
+b10 .
+b10 6
+b10 >
+b10 G
+b10 Q
+b10 \
+#160
+0i
+0!
+#165
+bx 1
+bx 3
+bx K
+0^
+0S
+1@
+b100 M
+0`
+1c
+b10 a
+b10 b
+b1000001000000000000000000000000 _
+0U
+1X
+b10 V
+b10 W
+b1000001000000000000000000000000 T
+1C
+1E
+b10 D
+b1000001000000000000000000000000 A
+b0 .
+b0 6
+b0 >
+b0 G
+b0 Q
+b0 \
+b10010001101000101011001111000 -
+b10010001101000101011001111000 7
+b10010001101000101011001111000 ?
+b10010001101000101011001111000 R
+b10010001101000101011001111000 ]
+1i
+1!
+#167
+b10 9
+b1000001000000000000000000000000 8
+#170
+0i
+0!
+#175
+0@
+b0 D
+b0 W
+b0 b
+1i
+1!
+#176
+0,
+b10 .
+b10 6
+b10 >
+b10 G
+b10 Q
+b10 \
+#180
+0i
+0!
+#185
+1@
+0c
+b10 b
+0X
+b10 W
+0E
+b10 D
+b0 .
+b0 6
+b0 >
+b0 G
+b0 Q
+b0 \
+1i
+1!
+#190
+0i
+0!
+#195
+b10010001101000101011001111000 1
+b10010001101000101011001111000 3
+b10010001101000101011001111000 K
+0@
+b10010001101000101011001111000 +
+b10010001101000101011001111000 B
+b10010001101000101011001111000 H
+b0 D
+b0 W
+b0 b
+1i
+1!
+#200
+0i
+0!
+#205
+1i
+1!
+b10 v
+b10010001101000101011001111000 u
+b1000001000000000000000000000000 t
+#206
+1d
+b10 g
+b10 o
+b1000001000000000000000000000000 h
+b1000001000000000000000000000000 n
+b10 f
+b10 p
+#210
+0i
+0!
+#215
+b0 f
+b0 p
+b10010001101000101011001111000 e
+b10010001101000101011001111000 q
+1i
+1!
+#217
+b10 s
+b1000001000000000000000000000000 r
+#220
+0i
+0!
+#225
+1i
+1!
+#226
+0d
+b10 f
+b10 p
+#230
+0i
+0!
+#235
+b0 f
+b0 p
+1i
+1!
+#240
+0i
+0!
+#245
+1i
+1!
+#250
+0i
+0!
+#255
+1i
+1!
+#260
+0i
+0!
+#265
+1i
+1!
+#270
+0i
+0!
+#275
+1i
+1!
+#280
+0i
+0!
+#285
+1i
+1!
+#290
+0i
+0!
+#295
+1i
+1!
+#300
+0i
+0!
+#301
