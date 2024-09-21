@@ -1,9 +1,9 @@
 module SoC (
     input wire HCLK,
     input wire HRESETn,
-    output reg [31:0] registers_0,
-    output reg [31:0] registers_1,
-    output reg [31:0] registers_2
+    output wire [31:0] register_0,
+    output wire [31:0] register_1,
+    output wire [31:0] register_2
 );
 
     wire [31:0] HADDR;
@@ -14,7 +14,7 @@ module SoC (
     wire        HREADY;
     wire [31:0] HRDATA;
 
-    wire [31:0] P0_HRDATA, S1_HRDATA, S2_HRDATA;
+    wire [31:0] P0_HRDATA, S0_HRDATA, S1_HRDATA;
     wire        P0_HSEL, S0_HSEL, S1_HSEL;
     wire        P0_HREADYOUT, S0_HREADYOUT, S1_HREADYOUT;
 
@@ -43,13 +43,13 @@ module SoC (
         .HWDATA(HWDATA),
         .HREADYOUT(P0_HREADYOUT),
         .HRDATA(P0_HRDATA),
-        .register_0(registers_0),
-        .register_1(registers_1),
-        .register_2(registers_2)
+        .register_0(register_0),
+        .register_1(register_1),
+        .register_2(register_2)
     );
 
 
-    ahbl_slave #(.ID(32'hABCD_EF01)) S1 (
+    ahbl_slave #(.ID(32'hABCD_EF01)) S0 (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -64,7 +64,7 @@ module SoC (
         .HRDATA(S0_HRDATA)
     );
 
-    ahbl_slave #(.ID(32'hABCD_EF02)) S2 (
+    ahbl_slave #(.ID(32'hABCD_EF02)) S1 (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
