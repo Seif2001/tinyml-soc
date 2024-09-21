@@ -1,11 +1,10 @@
-module ahbl_slave #(parameter ID = 32'hABCD_EF00) (
+module ahbl_peripheral #(parameter ID = 32'hABCD_EF00) (
     input   wire        HCLK,
     input   wire        HRESETn,
 
     input   wire [31:0] HADDR,
     input   wire [1:0]  HTRANS,
     input   wire     	HREADY,
-    input   wire [2:0]  HSIZE,
     input   wire        HWRITE,
     input   wire        HSEL,
     input   wire [31:0] HWDATA,
@@ -15,32 +14,35 @@ module ahbl_slave #(parameter ID = 32'hABCD_EF00) (
 );
     reg [31:0] HADDR_d;
     reg [1:0]  HTRANS_d;
-    reg [2:0]  HSIZE_d;
     reg        HWRITE_d;
     reg        HSEL_d;
-    reg [8:0]  memory [2:0];
+    reg [31:0] registers [2:0];
     always @(posedge HCLK or negedge HRESETn) begin
         if(HRESETn == 1'b0) begin
             HADDR_d     <= 0;
             HTRANS_d    <= 0;
-            HSIZE_d     <= 0;
             HWRITE_d    <= 0;
             HSEL_d      <= 0;
         end else if(HREADY == 1'b1) begin
             HADDR_d     <= HADDR;
             HTRANS_d    <= HTRANS;
-            HSIZE_d     <= HSIZE;
             HWRITE_d    <= HWRITE;
             HSEL_d      <= HSEL;
         end 
     end
 
-    wire ahbl_we = HTRANS_d[1] & HSEL_d & HWRITE_d;
+    wire ahbl_we = HTRANS_d[1] & HSEL_d;
     always @(posedge HCLK) begin
         if(HRESETn & ahbl_we)
-            $display("Slave %h: WRITE 0x%8x to 0x%8x", ID, HWDATA, HADDR_d);
+            if(HWRITE_d) begin
+                $display("Slave %h: WRITE 0x%8x to 0x%8x", ID, HWDATA, HADDR_d);
+                registers[HADDR_d[1:0]] <= HWDATA;
+            end else begin
+                $display("Slave %h: READ 0x%8x from 0x%8x", ID, registers[HADDR_d[1:0]], HADDR_d);
+                HRDATA <= registers[HADDR_d[27:26]];
+            end
+
     end
 
     assign HREADYOUT = 1;
-    assign HRDATA = ID;
 endmodule
