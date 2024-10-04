@@ -38,7 +38,7 @@ Disassembly of section .text:
   78:	00000f13          	li	t5,0
   7c:	00000f93          	li	t6,0
   80:	00000517          	auipc	a0,0x0
-  84:	0c450513          	addi	a0,a0,196 # 144 <_sidata>
+  84:	0c850513          	addi	a0,a0,200 # 148 <_sidata>
   88:	20000597          	auipc	a1,0x20000
   8c:	f7858593          	addi	a1,a1,-136 # 20000000 <gpio_oe_2>
   90:	20000617          	auipc	a2,0x20000
@@ -72,50 +72,51 @@ Disassembly of section .text:
 
 000000d8 <main>:
   d8:	200007b7          	lui	a5,0x20000
-  dc:	0147a583          	lw	a1,20(a5) # 20000014 <gpio_oe_0>
+  dc:	0147a703          	lw	a4,20(a5) # 20000014 <gpio_oe_0>
   e0:	200007b7          	lui	a5,0x20000
-  e4:	0107a603          	lw	a2,16(a5) # 20000010 <gpio_data_0>
+  e4:	00c7a603          	lw	a2,12(a5) # 2000000c <gpio_oe_1>
   e8:	200007b7          	lui	a5,0x20000
-  ec:	00c7a683          	lw	a3,12(a5) # 2000000c <gpio_oe_1>
-  f0:	fff00713          	li	a4,-1
-  f4:	f00fe7b7          	lui	a5,0xf00fe
-  f8:	00e5a023          	sw	a4,0(a1)
-  fc:	00e78793          	addi	a5,a5,14 # f00fe00e <_stack+0xd00fc00e>
- 100:	200005b7          	lui	a1,0x20000
- 104:	0085a583          	lw	a1,8(a1) # 20000008 <gpio_data_1>
- 108:	00f62023          	sw	a5,0(a2)
- 10c:	200007b7          	lui	a5,0x20000
- 110:	0007a603          	lw	a2,0(a5) # 20000000 <gpio_oe_2>
- 114:	00e6a023          	sw	a4,0(a3)
- 118:	f00fe7b7          	lui	a5,0xf00fe
- 11c:	200006b7          	lui	a3,0x20000
- 120:	0046a683          	lw	a3,4(a3) # 20000004 <gpio_data_2>
- 124:	00d78793          	addi	a5,a5,13 # f00fe00d <_stack+0xd00fc00d>
- 128:	00f5a023          	sw	a5,0(a1)
- 12c:	f00fe7b7          	lui	a5,0xf00fe
- 130:	00e62023          	sw	a4,0(a2)
- 134:	00c78793          	addi	a5,a5,12 # f00fe00c <_stack+0xd00fc00c>
- 138:	00f6a023          	sw	a5,0(a3)
+  ec:	0087a683          	lw	a3,8(a5) # 20000008 <gpio_data_1>
+  f0:	fff00793          	li	a5,-1
+  f4:	00f72023          	sw	a5,0(a4)
+  f8:	20000737          	lui	a4,0x20000
+  fc:	01072703          	lw	a4,16(a4) # 20000010 <gpio_data_0>
+ 100:	00f62023          	sw	a5,0(a2)
+ 104:	200007b7          	lui	a5,0x20000
+ 108:	0007a603          	lw	a2,0(a5) # 20000000 <gpio_oe_2>
+ 10c:	00100793          	li	a5,1
+ 110:	00f6a023          	sw	a5,0(a3)
+ 114:	00200793          	li	a5,2
+ 118:	00f72023          	sw	a5,0(a4)
+ 11c:	100007b7          	lui	a5,0x10000
+ 120:	fff78793          	addi	a5,a5,-1 # fffffff <_sidata+0xffffeb7>
+ 124:	00f62023          	sw	a5,0(a2)
+ 128:	0006a783          	lw	a5,0(a3)
+ 12c:	00072683          	lw	a3,0(a4)
+ 130:	20000737          	lui	a4,0x20000
+ 134:	00472703          	lw	a4,4(a4) # 20000004 <gpio_data_2>
+ 138:	00d787b3          	add	a5,a5,a3
  13c:	00000513          	li	a0,0
- 140:	00008067          	ret
+ 140:	00f72023          	sw	a5,0(a4)
+ 144:	00008067          	ret
 
 Disassembly of section .data:
 
 20000000 <gpio_oe_2>:
-20000000:	0014                	.insn	2, 0x0014
-20000002:	4000                	.insn	2, 0x4000
+20000000:	0004                	.insn	2, 0x0004
+20000002:	4200                	.insn	2, 0x4200
 
 20000004 <gpio_data_2>:
-20000004:	0010                	.insn	2, 0x0010
-20000006:	4000                	.insn	2, 0x4000
+20000004:	0000                	.insn	2, 0x
+20000006:	4200                	.insn	2, 0x4200
 
 20000008 <gpio_data_1>:
-20000008:	0008                	.insn	2, 0x0008
-2000000a:	4000                	.insn	2, 0x4000
+20000008:	0000                	.insn	2, 0x
+2000000a:	4100                	.insn	2, 0x4100
 
 2000000c <gpio_oe_1>:
-2000000c:	000c                	.insn	2, 0x000c
-2000000e:	4000                	.insn	2, 0x4000
+2000000c:	0004                	.insn	2, 0x0004
+2000000e:	4100                	.insn	2, 0x4100
 
 20000010 <gpio_data_0>:
 20000010:	0000                	.insn	2, 0x

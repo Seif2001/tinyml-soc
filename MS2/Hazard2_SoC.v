@@ -14,15 +14,15 @@ module Hazard2_SoC (
     input wire          HCLK,
     input wire          HRESETn,
 
-    output wire [31:0]  GPIO_OUT_0,
-    output wire [31:0]  GPIO_OE_0,
-    input wire [31:0]   GPIO_IN_0,
-    output wire [31:0]  GPIO_OUT_1,
-    output wire [31:0]  GPIO_OE_1,
-    input wire [31:0]   GPIO_IN_1,
-    output wire [31:0]  GPIO_OUT_2,
-    output wire [31:0]  GPIO_OE_2,
-    input wire [31:0]   GPIO_IN_2
+    output wire [31:0]  GPIO_OUT_A,
+    output wire [31:0]  GPIO_OE_A,
+    input wire [31:0]   GPIO_IN_A,
+    output wire [31:0]  GPIO_OUT_B,
+    output wire [31:0]  GPIO_OE_B,
+    input wire [31:0]   GPIO_IN_B,
+    output wire [31:0]  GPIO_OUT_C,
+    output wire [31:0]  GPIO_OE_C,
+    input wire [31:0]   GPIO_IN_C
 
 );
 
@@ -51,7 +51,11 @@ module Hazard2_SoC (
         .HRDATA(HRDATA)
     );
 
-    ahbl_gpio GPIO (
+    ahbl_gpio_splitter    # ( .A(4'h0),     
+                              .B(4'h1),     
+                              .C(4'h2) 
+                            )
+    GPIO (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -65,15 +69,15 @@ module Hazard2_SoC (
         .HREADYOUT(S2_HREADYOUT),
         .HRDATA(S2_HRDATA),
 
-        .GPIO_IN_0(GPIO_IN_0),
-        .GPIO_OUT_0(GPIO_OUT_0),
-        .GPIO_OE_0(GPIO_OE_0),
-        .GPIO_IN_1(GPIO_IN_1),
-        .GPIO_OUT_1(GPIO_OUT_1),
-        .GPIO_OE_1(GPIO_OE_1),
-        .GPIO_IN_2(GPIO_IN_2),
-        .GPIO_OUT_2(GPIO_OUT_2),
-        .GPIO_OE_2(GPIO_OE_2)
+        .GPIO_IN_A(GPIO_IN_A),
+        .GPIO_OUT_A(GPIO_OUT_A),
+        .GPIO_OE_A(GPIO_OE_A),
+        .GPIO_IN_B(GPIO_IN_B),
+        .GPIO_OUT_B(GPIO_OUT_B),
+        .GPIO_OE_B(GPIO_OE_B),
+        .GPIO_IN_C(GPIO_IN_C),
+        .GPIO_OUT_C(GPIO_OUT_C),
+        .GPIO_OE_C(GPIO_OE_C)
     );
 
     ahbl_ram #(.SIZE(8*1024)) PMEM (

@@ -4,3 +4,4 @@ ahbl_splitter_4.v
 ahbl_ram.v 
 ahbl_gpio.v
 Hazard2_SoC.v 
+ahbl_gpio_splitter.v
