@@ -5,6 +5,8 @@ module Upduino(
 );
     reg int_osc;
     SB_HFOSC u_SB_HFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
+    defparam u_SB_HFOSC.CLKHF_DIV = "0b11"; // Example setting for lowest frequency
+
 
     wire [31:0] GPIO_OUT_A;
     wire [31:0] GPIO_OE_A;

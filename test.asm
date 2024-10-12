@@ -87,11 +87,11 @@ Disassembly of section .data:
 
 20000000 <gpio_oe_2>:
 20000000:	0004                	.insn	2, 0x0004
-20000002:	4200                	.insn	2, 0x4200
+20000002:	4300                	.insn	2, 0x4300
 
 20000004 <gpio_data_2>:
 20000004:	0000                	.insn	2, 0x
-20000006:	4200                	.insn	2, 0x4200
+20000006:	4300                	.insn	2, 0x4300
 
 Disassembly of section .riscv.attributes:
 
