@@ -22,7 +22,9 @@ module Hazard2_SoC (
     input wire  [31:0]   GPIO_IN_B,
     output wire [31:0]  GPIO_OUT_C,
     output wire [31:0]  GPIO_OE_C,
-    input wire  [31:0]   GPIO_IN_C
+    input wire  [31:0]   GPIO_IN_C,
+
+    output wire         UART_TX
 
 );
 
@@ -113,7 +115,7 @@ module Hazard2_SoC (
     );
 
 
-    ahbl_rom #(.SIZE(8*1024)) PMEM (
+    ahbl_rom #(.SIZE(6*1024)) PMEM (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -128,7 +130,7 @@ module Hazard2_SoC (
         .HRDATA(S0_HRDATA)
     );
 
-    ahbl_ram #(.SIZE(4*1024)) DMEM (
+    ahbl_ram #(.SIZE(8*1024)) DMEM (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -143,15 +145,29 @@ module Hazard2_SoC (
         .HRDATA(S1_HRDATA)
     );
 
-    // Slave 3 does not exist
-    assign S3_HREADYOUT = 1'b1;
-    assign S3_HRDATA = 32'hBADDBEEF;
+
+       ahbl_uart_tx TX (
+        .HCLK(HCLK),
+        .HRESETn(HRESETn),
+
+        .HADDR(HADDR),
+        .HTRANS(HTRANS),
+        .HSIZE(HSIZE),
+        .HWRITE(HWRITE),
+        .HREADY(HREADY),
+        .HSEL(S3_HSEL),
+        .HWDATA(HWDATA),
+        .HREADYOUT(S3_HREADYOUT),
+        .HRDATA(S3_HRDATA),
+
+        .tx(UART_TX)
+    );
 
 
     ahbl_splitter_4 # ( .S0(4'h0),     // Program Memory
                         .S1(4'h2),     // Data Memory
                         .S2(4'h4),     // GPIO Port
-                        .S3(4'h8)      // Unused
+                        .S3(4'h5)      // uart
     ) SPLITTER (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
@@ -180,9 +196,9 @@ module Hazard2_SoC (
     );
 
 
-     ahbl_gpio_splitter    # ( .A(4'h1),     
-                              .B(4'h2),     
-                              .C(4'h3) 
+     ahbl_gpio_splitter    # ( .A(4'h0),     
+                              .B(4'h1),     
+                              .C(4'h2) 
                             )
     GPIO (
         .HCLK(HCLK),
@@ -198,24 +214,15 @@ module Hazard2_SoC (
         .HREADYOUT(S2_HREADYOUT),
         .HRDATA(S2_HRDATA),
 
-        .GPIO_IN_A(GPIO_IN_A),
-        .GPIO_OUT_A(GPIO_OUT_A),
-        .GPIO_OE_A(GPIO_OE_A),
 
         .GP_A_HRDATA(GP_A_HRDATA),
         .GP_A_HREADYOUT(GP_A_HREADYOUT),
         .GP_A_SEL(GP_A_SEL),
 
-        .GPIO_IN_B(GPIO_IN_B),
-        .GPIO_OUT_B(GPIO_OUT_B),
-        .GPIO_OE_B(GPIO_OE_B),
         .GP_B_HRDATA(GP_B_HRDATA),
         .GP_B_HREADYOUT(GP_B_HREADYOUT),
         .GP_B_SEL(GP_B_SEL),
 
-        .GPIO_IN_C(GPIO_IN_C),
-        .GPIO_OUT_C(GPIO_OUT_C),
-        .GPIO_OE_C(GPIO_OE_C),
         .GP_C_HRDATA(GP_C_HRDATA),
         .GP_C_HREADYOUT(GP_C_HREADYOUT),
         .GP_C_SEL(GP_C_SEL)

@@ -16,10 +16,13 @@ module ahbl_ram (
 
     parameter   SIZE = 8 * 1024;
     parameter   VERBOSE = 1;
-    parameter   HEX_FILE = "test.hex";
     localparam  A_WIDTH = $clog2(SIZE) - 2;
 
-    reg [31:0] RAM[SIZE/4-1 : 0];
+    reg [7:0] BRAM0[SIZE/4-1 : 0];
+    reg [7:0] BRAM1[SIZE/4-1 : 0];
+    reg [7:0] BRAM2[SIZE/4-1 : 0];
+    reg [7:0] BRAM3[SIZE/4-1 : 0];
+
 
     reg [31:0] HADDR_d;
     reg [1:0]  HTRANS_d;
@@ -74,20 +77,17 @@ module ahbl_ram (
         if(ahbl_we) begin
             if(VERBOSE)
                 $display("Write [%x] to SRAM: [%x]=%x (%0t)", HSIZE_d, HADDR_d, HWDATA, $time);
-            if(byte0) RAM[HADDR_d[A_WIDTH-1 : 2]][7:0]     <= HWDATA[7:0];
-            if(byte1) RAM[HADDR_d[A_WIDTH-1 : 2]][15:8]    <= HWDATA[15:8];
-            if(byte2) RAM[HADDR_d[A_WIDTH-1 : 2]][23:16]   <= HWDATA[23:16];
-            if(byte3) RAM[HADDR_d[A_WIDTH-1 : 2]][31:24]   <= HWDATA[31:24];
+            if(byte0) BRAM0[HADDR_d[A_WIDTH-1 : 2]]  <= HWDATA[7:0];
+            if(byte1) BRAM1[HADDR_d[A_WIDTH-1 : 2]]  <= HWDATA[15:8];
+            if(byte2) BRAM2[HADDR_d[A_WIDTH-1 : 2]]  <= HWDATA[23:16];
+            if(byte3) BRAM3[HADDR_d[A_WIDTH-1 : 2]]  <= HWDATA[31:24];
         end
     end
 
-    assign HRDATA = RAM[HADDR_d[A_WIDTH-1 : 2]];
+    assign HRDATA = {BRAM3[HADDR_d[A_WIDTH-1 : 2]],BRAM2[HADDR_d[A_WIDTH-1 : 2]],BRAM1[HADDR_d[A_WIDTH-1 : 2]],BRAM0[HADDR_d[A_WIDTH-1 : 2]]};
 
     assign HREADYOUT = 1'b1; // Always ready
 
-    initial begin
-        $readmemh(HEX_FILE, RAM);
-    end
 
 endmodule
 

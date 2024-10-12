@@ -16,7 +16,7 @@ module ahbl_rom (
 
     parameter   SIZE = 8 * 1024;
     parameter   VERBOSE = 1;
-    parameter   HEX_FILE = "test.hex";
+    parameter   HEX_FILE = "/home/seif/dev/projects/tinyml-soc/test.hex";
     localparam  A_WIDTH = $clog2(SIZE) - 2;
 
     reg [31:0] RAM[SIZE/4-1 : 0];

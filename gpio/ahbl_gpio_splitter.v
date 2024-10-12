@@ -21,17 +21,13 @@ module ahbl_gpio_splitter #(parameter A=4'h0,
 
 
     // GPIOA
-    input  wire [31:0]   GPIO_IN_A,
-    output wire [31:0]   GPIO_OUT_A,
-    output wire [31:0]   GPIO_OE_A,
+
     input  wire          GP_A_HREADYOUT,
     input  wire [31:0]   GP_A_HRDATA,
     output wire          GP_A_SEL,     
 
     // GPIOB
-    input  wire [31:0]   GPIO_IN_B,
-    output wire [31:0]   GPIO_OUT_B,
-    output wire [31:0]   GPIO_OE_B,
+
     input  wire          GP_B_HREADYOUT,
     input  wire [31:0]   GP_B_HRDATA,
     output wire          GP_B_SEL,     
@@ -39,9 +35,7 @@ module ahbl_gpio_splitter #(parameter A=4'h0,
 
 
     // GPIOC
-    input  wire [31:0]   GPIO_IN_C,
-    output wire [31:0]   GPIO_OUT_C,
-    output wire [31:0]   GPIO_OE_C,
+
     input  wire          GP_C_HREADYOUT,
     input  wire [31:0]   GP_C_HRDATA,
     output wire          GP_C_SEL

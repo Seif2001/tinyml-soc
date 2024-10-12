@@ -11,8 +11,8 @@ upduino.bin: upduino.asc
 upduino.asc: upduino.json upduino.pcf
 	nextpnr-ice40 --up5k --package sg48 --json upduino.json --pcf upduino.pcf --asc upduino.asc --report upduino_report.txt
 
-upduino.json: Upduino.v ../cpu/hazard2_cpu.v ../cpu/Hazard2.v ../SoC/ahbl_splitter_4.v ../memory/ahbl_ram.v ../memory/ahbl_rom.v ../gpio/ahbl_gpio.v ../SoC/Hazard2_SoC.v ../gpio/ahbl_gpio_splitter.v
-	yosys -q -p "read_verilog -sv Upduino.v ../cpu/hazard2_cpu.v ../cpu/Hazard2.v ../SoC/ahbl_splitter_4.v ../memory/ahbl_ram.v ../memory/ahbl_rom.v ../gpio/ahbl_gpio.v ../SoC/Hazard2_SoC.v ../gpio/ahbl_gpio_splitter.v ; synth_ice40 -top Upduino -json upduino.json" 
+upduino.json: Upduino.v ../cpu/hazard2_cpu.v ../cpu/Hazard2.v ../SoC/ahbl_splitter_4.v ../memory/ahbl_ram.v  ../memory/ahbl_rom.v ../gpio/ahbl_gpio.v ../SoC/Hazard2_SoC.v ../gpio/ahbl_gpio_splitter.v
+	yosys -q -p "read_verilog -sv Upduino.v ../cpu/hazard2_cpu.v ../cpu/Hazard2.v ../SoC/ahbl_splitter_4.v ../memory/ahbl_ram.v  ../memory/ahbl_rom.v ../gpio/ahbl_gpio.v ../SoC/Hazard2_SoC.v ../gpio/ahbl_gpio_splitter.v ; synth_ice40 -top Upduino -json upduino.json" 
 
 .PHONY: flash
 flash:

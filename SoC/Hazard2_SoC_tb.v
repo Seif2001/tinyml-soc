@@ -14,6 +14,9 @@ module Hazard2_SoC_tb;
     wire [31:0] GPIO_OE_C;
     wire [31:0] GPIO_IN_C;
 
+    wire        UART_TX;
+
+
     
     
     // clock
@@ -49,7 +52,9 @@ module Hazard2_SoC_tb;
         .GPIO_IN_B(GPIO_IN_B),
         .GPIO_OUT_C(GPIO_OUT_C),
         .GPIO_OE_C(GPIO_OE_C),
-        .GPIO_IN_C(GPIO_IN_C)
+        .GPIO_IN_C(GPIO_IN_C),
+
+        .UART_TX(UART_TX)
     );
 
     // Simulate the GPIO
@@ -65,6 +70,13 @@ module Hazard2_SoC_tb;
     assign PORT_C = GPIO_OE_C ? GPIO_OUT_C : 32'hZZZZ_ZZZZ;
     assign GPIO_IN_C = PORT_C;
 
+        // A serial Terminal
+    serial_terminal terminal (
+        .clk(HCLK),             
+        .rst_n(HRESETn),           
+        .rx(UART_TX),           
+        .baud_div(10)  
+    );
 
     // FInish when yoiu see a special pattern on the GPIO
     always@* begin
@@ -72,8 +84,8 @@ module Hazard2_SoC_tb;
         $display("GREEN: %h time %t", PORT_C[1], $time);
         $display("RED: %h time %t", PORT_C[0], $time);
 
-        if (PORT_C[0]) begin
-            #100;
+        if (GPIO_OUT_A == 32'hF00F_E00E) begin
+            #1000;
             $display("Test Passed");
             $finish;
         end
