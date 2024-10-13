@@ -9,3 +9,6 @@
 ../../uart/ahbl_uart.v
 ../../uart/uart_tx.v
 ../../uart/serial_terminal.v
+../../timer/ahbl_counter.v
+../../timer/counter.v
+../../timer/prescaler_counter.v

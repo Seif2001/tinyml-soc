@@ -36,9 +36,9 @@ module Hazard2_SoC (
     wire        HREADY;
     wire [31:0] HRDATA;
 
-    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA;
-    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL;
-    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT;
+    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA, S4_HRDATA;
+    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL, S4_HSEL;
+    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT, S4_HREADYOUT;
 
     wire GP_A_HREADYOUT, GP_B_HREADYOUT, GP_C_HREADYOUT;
     wire [31:0] GP_A_HRDATA, GP_B_HRDATA, GP_C_HRDATA;
@@ -163,11 +163,28 @@ module Hazard2_SoC (
         .tx(UART_TX)
     );
 
+    ahbl_counter COUNTER (
+        .HCLK(HCLK),
+        .HRESETn(HRESETn),
+
+        .HADDR(HADDR),
+        .HTRANS(HTRANS),
+        .HSIZE(HSIZE),
+        .HWRITE(HWRITE),
+        .HREADY(HREADY),
+        .HSEL(S4_HSEL),
+        .HWDATA(HWDATA),
+        .HREADYOUT(S4_HREADYOUT),
+        .HRDATA(S4_HRDATA)
+
+    );
+
 
     ahbl_splitter_4 # ( .S0(4'h0),     // Program Memory
                         .S1(4'h2),     // Data Memory
                         .S2(4'h4),     // GPIO Port
-                        .S3(4'h5)      // uart
+                        .S3(4'h5),     // uart
+                        .S4(4'h6)      // timer
     ) SPLITTER (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
@@ -191,7 +208,11 @@ module Hazard2_SoC (
 
         .S3_HSEL(S3_HSEL),
         .S3_HRDATA(S3_HRDATA),
-        .S3_HREADYOUT(S3_HREADYOUT)
+        .S3_HREADYOUT(S3_HREADYOUT),
+
+        .S4_HSEL(S4_HSEL),
+        .S4_HRDATA(S4_HRDATA),
+        .S4_HREADYOUT(S4_HREADYOUT)
 
     );
 

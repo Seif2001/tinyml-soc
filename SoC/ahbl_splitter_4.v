@@ -7,7 +7,8 @@
 module ahbl_splitter_4 #(parameter  S0=4'h0, 
                                     S1=4'h2, 
                                     S2=4'h4, 
-                                    S3=4'h8 ) 
+                                    S3=4'h8,
+                                    S4=4'hF) 
 (
     input   wire        HCLK,
     input   wire        HRESETn,
@@ -36,29 +37,37 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
     // Slave 3
     output  wire        S3_HSEL,
     input   wire [31:0] S3_HRDATA,
-    input   wire        S3_HREADYOUT
+    input   wire        S3_HREADYOUT,
+
+    // Slave 4
+    output  wire        S4_HSEL,
+    input   wire [31:0] S4_HRDATA,
+    input   wire        S4_HREADYOUT
+
 );
 
     // The Decoder
-    reg [3:0] sel;
-    reg [3:0] sel_d;
+    reg [4:0] sel;
+    reg [4:0] sel_d;
     always @*
         case(HADDR[31:28])
-            S0: sel = 4'b0001;
-            S1: sel = 4'b0010;
-            S2: sel = 4'b0100;
-            S3: sel = 4'b1000;
-            default: sel = 4'b0000;
+            S0: sel = 5'b00001;
+            S1: sel = 5'b00010;
+            S2: sel = 5'b00100;
+            S3: sel = 5'b01000;
+            S4: sel = 5'b10000;
+            default: sel = 5'b00000;
         endcase
     assign S0_HSEL = sel[0];
     assign S1_HSEL = sel[1];
     assign S2_HSEL = sel[2];
     assign S3_HSEL = sel[3];
+    assign S4_HSEL = sel[4];
 
     // The Slave MUX Selection Saving
     always@(posedge HCLK or negedge HRESETn) begin
         if(~HRESETn) begin
-            sel_d <= 4'b0000;
+            sel_d <= 5'b00000;
         end else if(HTRANS[1] & HREADY) begin
             sel_d <= sel;
         end
@@ -68,12 +77,14 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
                         (sel_d[1])  ?   S1_HREADYOUT :
                         (sel_d[2])  ?   S2_HREADYOUT :
                         (sel_d[3])  ?   S3_HREADYOUT :
+                        (sel_d[4])  ?   S4_HREADYOUT :
                         1'b1;
 
     assign HRDATA =   (sel_d[0])  ?   S0_HRDATA :
                         (sel_d[1])  ?   S1_HRDATA :
                         (sel_d[2])  ?   S2_HRDATA :
                         (sel_d[3])  ?   S3_HRDATA :
+                        (sel_d[4])  ?   S4_HRDATA :
                         32'hBADDBEEF;
 
 endmodule

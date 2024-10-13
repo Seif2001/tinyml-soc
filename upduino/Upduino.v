@@ -1,7 +1,9 @@
 module Upduino(
   output wire led_red  , // Red
   output wire led_blue , // Blue
-  output wire led_green  // Green 
+  output wire led_green,  // Green 
+  output wire tx,
+  output wire tick
 );
     reg int_osc;
     SB_HFOSC u_SB_HFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
@@ -33,7 +35,11 @@ module Upduino(
         .GPIO_IN_B(GPIO_IN_B),
         .GPIO_OUT_C(GPIO_OUT_C),
         .GPIO_OE_C(GPIO_OE_C),
-        .GPIO_IN_C(GPIO_IN_C)
+        .GPIO_IN_C(GPIO_IN_C),
+
+        .UART_TX(tx),
+        .tick(tick)
+
     );
 
     SB_RGBA_DRV RGB_DRIVER (
