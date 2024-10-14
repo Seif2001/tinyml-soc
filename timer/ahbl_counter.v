@@ -59,10 +59,10 @@ module ahbl_counter (
         end
     end
 
-    wire [15:0]  STATUS_REG;
+    wire [31:0]  STATUS_REG;
     reg [ 2:0]  CFG_REG;
     reg [ 0:0]  CTRL_REG;
-    reg [15:0]  LOAD_REG;
+    reg [31:0]  LOAD_REG;
     reg [15:0]  PS_REG;
 
     reg start_pulse;
@@ -90,7 +90,7 @@ module ahbl_counter (
         if(~HRESETn)
             LOAD_REG <= 'h0;
         else if(ahbl_we & LOAD_REG_SEL)
-            LOAD_REG <= HWDATA[15:0];
+            LOAD_REG <= HWDATA[31:0];
 
 
     always @ (posedge HCLK or negedge HRESETn)
@@ -101,10 +101,10 @@ module ahbl_counter (
         else
             start_pulse <= 1'b0;
 
-    assign HRDATA = STATUS_REG_SEL ? {16'h0, STATUS_REG} :
+    assign HRDATA = STATUS_REG_SEL ? STATUS_REG :
                     CFG_REG_SEL    ? {29'h0, CFG_REG}     :
                     PS_REG_SEL     ? {16'h0, PS_REG}      :
-                    LOAD_REG_SEL   ? {16'h0, LOAD_REG}    :
+                    LOAD_REG_SEL   ?  LOAD_REG    :
                     CTRL_REG_SEL   ? {31'h0, CTRL_REG}    :
                     TICK_REG_SEL   ? {31'h0, tick}        :
                     32'hBADDBEEF;
@@ -117,7 +117,7 @@ module ahbl_counter (
         .rst_n(HRESETn),
         .en(CTRL_REG[0]),
         .prescaler(PS_REG),
-        .start(start_pulse),
+        .reset_tim(start_pulse),
         .load(LOAD_REG),
         .up_down(CFG_REG[0]),
         .one_shot(CFG_REG[1]),

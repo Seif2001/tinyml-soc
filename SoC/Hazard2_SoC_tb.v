@@ -80,11 +80,9 @@ module Hazard2_SoC_tb;
 
     // FInish when yoiu see a special pattern on the GPIO
     always@* begin
-        $display("BLUE: %h time %t", PORT_C[2], $time);  
-        $display("GREEN: %h time %t", PORT_C[1], $time);
-        $display("RED: %h time %t", PORT_C[0], $time);
+        $display("GPIO TEST %h time %t", GPIO_OUT_C, $time);
 
-        if (GPIO_OUT_A == 32'hF00F_E00E) begin
+        if (GPIO_OUT_C == 32'd1000) begin
             #1000;
             $display("Test Passed");
             $finish;

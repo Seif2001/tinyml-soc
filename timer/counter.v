@@ -2,97 +2,80 @@ module counter(
     input wire clk,
     input wire rst_n,
     input wire en,
-    input wire start,
+    input wire reset_tim,
     input wire [15:0] prescaler,
-    input wire [15:0] load,
+    input wire [31:0] load,
     input wire up_down,
     input wire one_shot,
     output wire tick,
-    output wire [15:0] count
+    output wire [31:0] count
 );
 
-    reg [15:0] count_d;
-    reg tick_d;
-    reg run;
+    reg [15:0]prescaler_counter;
+    reg [31:0]count_d;
+    wire tick_d;
+    reg first_run;
+    wire [31:0] next;
 
-    wire prescaler_clk;
-
-    prescaler_counter prescaler_counter(
-        .clk(clk),
-        .rst_n(rst_n),
-        .enable(en),
-        .prescaler(prescaler),
-        .tick(prescaler_clk)
-    );
-
-    always@(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
-            count_d <= 16'h0;
-            tick_d <= 0;
+    // prescaler counter
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            prescaler_counter <= 16'h0;
         end
-        else if(start) begin
-            if(up_down) begin
-                count_d <= 16'h0;
-                run <= 1;
+        else if (en) begin
+            if (reset_tim) begin
+                prescaler_counter <= 16'h0;
+            end
+            else if (prescaler_counter == prescaler) begin
+                prescaler_counter <= 16'h0;
             end
             else begin
-                count_d <= load;
-                run <= 1;
+                prescaler_counter <= prescaler_counter + 1;
             end
         end
     end
 
-    always@(posedge prescaler_clk) begin
-        if(en && run) begin
-            if (one_shot) begin
-                if(up_down) begin
-                    if (count_d == load) begin 
-                        run <= 0;
-                        count_d <= 16'h0;
-                        tick_d <= 1;
-                    end
-                    else begin
-                        count_d <= count_d + 1;
-                        tick_d <= 0;
-                    end
-                end
-                else begin
-                    if (count_d == 16'h0) begin
-                        tick_d <= 1;
-                    end
-                    else begin
-                        tick_d <= 0;
-                        count_d = count_d - 1;
-                    end
-                end
+
+    // first run
+   
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        first_run <= 1'b1;
+    end
+    else if (en) begin
+        if (reset_tim) begin
+            first_run <= 1'b1;
+        end
+        else if (prescaler_counter == prescaler) begin
+            first_run <= 1'b0;
+        end
+    end
+end
+
+    // Counter
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            count_d <= 0;
+        end
+        else if (en) begin
+            if (reset_tim) begin
+                count_d <= 0;
             end
-            else begin 
-                if(up_down) begin
-                    if (count_d == load) begin 
-                        run <= 1;
-                        count_d <= 16'h0;
-                        tick_d <= 1;
-                    end
-                    else begin
-                        count_d <= count_d + 1;
-                        tick_d <= 0;
-                    end
-                end
-                else begin
-                    if (count_d == 16'h0) begin
-                        run <= 1;
-                        tick_d <= 1;
-                        count_d <= load;
-                    end
-                    else begin
-                        tick_d <= 0;
-                        count_d = count_d - 1;
-                    end
-                end
+            else if (prescaler_counter == prescaler) begin
+                count_d <= next;
             end
         end
     end
+
+
+    assign next =  one_shot ? (up_down ? ((count_d == load) ? count_d : count_d + 1 ) : (first_run ? load : (count_d == 0) ? count_d : count_d - 1)) : 
+                              ((up_down ? ((count_d == load) ? 0 : count_d + 1 ) : ((count_d == 0) ? load : count_d - 1)));
+
+    assign tick_d = up_down ? ((count_d == load) ? 1 : 0 ) : (first_run ? 0 : (count_d == 0) ? 1 : 0);
 
     assign tick = tick_d;
+
     assign count = count_d;
+ 
+    
 endmodule

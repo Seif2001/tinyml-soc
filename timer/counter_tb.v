@@ -14,7 +14,7 @@ module counter_tb;
         .clk(clk),
         .rst_n(rst_n),
         .en(en),
-        .start(start),
+        .reset_tim(start),
         .up_down(up_down),
         .one_shot(one_shot),
         .prescaler(prescaler),
@@ -37,8 +37,8 @@ module counter_tb;
 
     initial begin
         en = 0;
-        up_down = 0;
-        one_shot = 1;
+        up_down = 1;
+        one_shot = 0;
         prescaler = 9;
         load = 16;
         start = 0;

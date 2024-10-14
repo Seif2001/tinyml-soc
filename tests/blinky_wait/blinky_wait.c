@@ -11,18 +11,18 @@ volatile unsigned int* tick_counter = (volatile unsigned int *) 0x60000010;
 
 
 void timer_init(){
-    *ctrl_counter = 0x00000001;
-    *cfg_counter = 0x00000002;
-    *ps_counter = 0x00000009;
-    *load_counter = 0x00000000;
 }
 
 void delay(unsigned int  ms){
-    *load_counter = ms;
-    *cfg_counter = 0x00000002;
+    ms = ms * 6000;
+    *ps_counter = 0x00000009;
+    *cfg_counter = 0x00000003;
     *ctrl_counter = 0x00000001;
+    *load_counter = ms;
 
-    while((*tick_counter & 0x1) == 1);
+    while(*timer_counter != ms);
+    *ctrl_counter = 0x00000000;
+    //*cfg_counter = 0x00000001;
 }
 
 
@@ -36,14 +36,13 @@ int main(){
     timer_init();
 
     // output something
-    
-    *gpio_data_2 = 0x00000003;
+    *gpio_data_2 = *timer_counter;
     unsigned int led = 0x00000001;
+    
     while(1){
         *gpio_data_2 = led;
         led = (led+1);
-        //for(volatile int i = 0; i < 10; i++);
-        delay(10);
+        delay(100);
     }
 
     return 0;

@@ -3,12 +3,11 @@ module Upduino(
   output wire led_blue , // Blue
   output wire led_green,  // Green 
   output wire tx,
-  output wire tick
 );
     reg int_osc;
-    SB_HFOSC u_SB_HFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
-    defparam u_SB_HFOSC.CLKHF_DIV = "0b11"; // Example setting for lowest frequency
-
+    SB_HFOSC u_SB_LFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
+    defparam u_SB_LFOSC.CLKHF_DIV = "0b11"; // Example setting for lowest frequency
+    
 
     wire [31:0] GPIO_OUT_A;
     wire [31:0] GPIO_OE_A;
@@ -38,7 +37,6 @@ module Upduino(
         .GPIO_IN_C(GPIO_IN_C),
 
         .UART_TX(tx),
-        .tick(tick)
 
     );
 
