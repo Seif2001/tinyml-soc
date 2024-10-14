@@ -2,7 +2,7 @@ CROSS=riscv64-unknown-elf-
 CFLAGS=-march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -O2 -Wall
 LFLAGS=-Wl,--build-id=none,-Bstatic,-T,../link.ld,--strip-debug
 VFILES=Hazard2_SoC.f
-TBFILES=../../SoC/Hazard2_SoC_tb.v
+TBFILES=../../rtl/SoC/Hazard2_SoC_tb.v
 
 # Rule for simulation using iverilog
 sim: blinky.vvp
