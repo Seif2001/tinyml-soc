@@ -1,8 +1,9 @@
 CROSS=riscv64-unknown-elf-
 CFLAGS=-march=rv32im -mabi=ilp32 -ffreestanding -nostdlib -O2 -Wall
-LFLAGS=-Wl,--build-id=none,-Bstatic,-T,../link.ld,--strip-debug
+LFLAGS=-Wl,--build-id=none,-Bstatic,-T,../common/link.ld,--strip-debug
 VFILES=Hazard2_SoC.f
 TBFILES=../../rtl/SoC/Hazard2_SoC_tb.v
+SRC=../common/src
 
 # Rule for simulation using iverilog
 sim: blinky_wait.vvp
@@ -18,8 +19,8 @@ blinky_wait.hex: blinky_wait.elf
 	$(CROSS)objcopy --verilog-data-width=4 -O verilog blinky_wait.elf /home/seif/dev/projects/tinyml-soc/test.hex
 
 # Compile the C code into a RISC-V ELF executable
-blinky_wait.elf: ../link.ld ../crt.s blinky_wait.c
-	$(CROSS)gcc $(CFLAGS) $(LFLAGS) -o blinky_wait.elf ../crt.s blinky_wait.c
+blinky_wait.elf: ../common/link.ld ../common/crt.s blinky_wait.c
+	$(CROSS)gcc $(CFLAGS) $(LFLAGS) -o blinky_wait.elf ../common/crt.s blinky_wait.c $(SRC)/time.c
 
 # A pseudo target to ensure hex files are generated before simulation
 hex: test.hex
