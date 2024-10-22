@@ -21,7 +21,7 @@ module ahbl_mult (
     wire        done;
 
     // store the address phase signals
-    reg [32:0]  HADDR_d;
+    reg [31:0]  HADDR_d;
     reg [2:0]   HSIZE_d;
     reg [1:0]   HTRANS_d;
     reg         HWRITE_d;
@@ -52,7 +52,7 @@ module ahbl_mult (
 
     reg [31:0]  MULTIPLICAND_A_REG;
     reg [31:0]  MULTIPLICAND_B_REG;
-    reg [31:0]  PROD_REG;
+    wire [31:0]  PROD_REG;
 
     always @ (posedge HCLK or negedge HRESETn)
         if(~HRESETn)

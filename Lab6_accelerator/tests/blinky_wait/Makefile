@@ -1,5 +1,5 @@
 CROSS=riscv64-unknown-elf-
-CFLAGS=-march=rv32im -mabi=ilp32 -ffreestanding -nostdlib -O2 -Wall
+CFLAGS=-march=rv32im -mabi=ilp32 -ffreestanding -nostdlib -O0 -Wall
 LFLAGS=-Wl,--build-id=none,-Bstatic,-T,../common/link.ld,--strip-debug
 VFILES=Hazard2_SoC.f
 TBFILES=../../rtl/SoC/Hazard2_SoC_tb.v

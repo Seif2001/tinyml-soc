@@ -12,3 +12,6 @@
 ../../rtl/timer/ahbl_counter.v
 ../../rtl/timer/counter.v
 ../../rtl/timer/prescaler_counter.v
+../../rtl/accelerator/multiplier.v
+../../rtl/accelerator/ahbl_mult.v
+

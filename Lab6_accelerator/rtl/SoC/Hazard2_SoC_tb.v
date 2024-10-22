@@ -35,7 +35,7 @@ module Hazard2_SoC_tb;
     initial begin
         $dumpfile("Hazard2_SoC_tb.vcd");
         $dumpvars(0, Hazard2_SoC_tb);
-        #100_000;
+        #1_000_00;
         $display("Test Failed: Timeout");
         $finish;
     end
@@ -82,7 +82,7 @@ module Hazard2_SoC_tb;
     always@* begin
         $display("GPIO TEST %h time %t", GPIO_OUT_C, $time);
 
-        if (GPIO_OUT_C == 32'd1000) begin
+        if (GPIO_OUT_C == 32'd15) begin
             #1000;
             $display("Test Passed");
             $finish;

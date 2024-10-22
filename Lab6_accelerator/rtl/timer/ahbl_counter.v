@@ -25,7 +25,7 @@ module ahbl_counter (
                 
 
     // store the address phase signals
-    reg [32:0]  HADDR_d;
+    reg [31:0]  HADDR_d;
     reg [2:0]   HSIZE_d;
     reg [1:0]   HTRANS_d;
     reg         HWRITE_d;

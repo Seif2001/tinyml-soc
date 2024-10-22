@@ -2,12 +2,18 @@
     A simple SoC
         - 1 CPU : Hazard2
         - 2 Memories : 8kbytes Data memory and 8kbytes Program memory
-        - 1 32-bit GPIO Port
+        - 3 32-bit GPIO Port
+        - 1 UART
+        - 1 timer
+        - 1 multiplier
 
     The Memory Map:
         - 0x0000_0000 - 0x0000_1FFF : Program Memory
         - 0x2000_2000 - 0x2000_1FFF : Data Memory
         - 0x4000_0000 : GPIO Port
+        - 0x5000_0000 : UART
+        - 0x6000_0000 : TIMER
+        - 0x7000_0000 : multiplier
 */
 
 module Hazard2_SoC (
@@ -36,9 +42,9 @@ module Hazard2_SoC (
     wire        HREADY;
     wire [31:0] HRDATA;
 
-    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA, S4_HRDATA;
-    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL, S4_HSEL;
-    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT, S4_HREADYOUT;
+    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA, S4_HRDATA, S5_HRDATA;
+    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL, S4_HSEL, S5_HSEL;
+    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT, S4_HREADYOUT, S5_HREADYOUT;
 
     wire GP_A_HREADYOUT, GP_B_HREADYOUT, GP_C_HREADYOUT;
     wire [31:0] GP_A_HRDATA, GP_B_HRDATA, GP_C_HRDATA;
@@ -55,6 +61,21 @@ module Hazard2_SoC (
         .HWDATA(HWDATA),
         .HREADY(HREADY),
         .HRDATA(HRDATA)
+    );
+
+    ahbl_mult MULTIPLY (
+        .HCLK(HCLK),
+        .HRESETn(HRESETn),
+
+        .HADDR(HADDR),
+        .HTRANS(HTRANS),
+        .HSIZE(HSIZE),
+        .HWRITE(HWRITE),
+        .HREADY(HREADY),
+        .HSEL(S5_HSEL),
+        .HWDATA(HWDATA),
+        .HREADYOUT(S5_HREADYOUT),
+        .HRDATA(S5_HRDATA)
     );
 
     ahbl_gpio GPIOA (
@@ -184,7 +205,8 @@ module Hazard2_SoC (
                         .S1(4'h2),     // Data Memory
                         .S2(4'h4),     // GPIO Port
                         .S3(4'h5),     // uart
-                        .S4(4'h6)      // timer
+                        .S4(4'h6),      // timer
+                        .S5(4'h7)      // accelerator
     ) SPLITTER (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
@@ -212,7 +234,11 @@ module Hazard2_SoC (
 
         .S4_HSEL(S4_HSEL),
         .S4_HRDATA(S4_HRDATA),
-        .S4_HREADYOUT(S4_HREADYOUT)
+        .S4_HREADYOUT(S4_HREADYOUT),
+
+        .S5_HSEL(S5_HSEL),
+        .S5_HRDATA(S5_HRDATA),
+        .S5_HREADYOUT(S5_HREADYOUT)
 
     );
 
