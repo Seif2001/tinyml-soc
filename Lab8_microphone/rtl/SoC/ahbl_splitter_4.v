@@ -9,7 +9,8 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
                                     S2=4'h4, 
                                     S3=4'h5,
                                     S4=4'h6,
-                                    S5=4'h7) 
+                                    S5=4'h7,
+                                    S6=4'h8) 
 (
     input   wire        HCLK,
     input   wire        HRESETn,
@@ -48,22 +49,28 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
     // Slave 5
     output  wire        S5_HSEL,
     input   wire [31:0] S5_HRDATA,
-    input   wire        S5_HREADYOUT
+    input   wire        S5_HREADYOUT,
+
+    // Slave 5
+    output  wire        S6_HSEL,
+    input   wire [31:0] S6_HRDATA,
+    input   wire        S6_HREADYOUT
 
 );
 
     // The Decoder
-    reg [5:0] sel;
-    reg [5:0] sel_d;
+    reg [6:0] sel;
+    reg [6:0] sel_d;
     always @*
         case(HADDR[31:28])
-            S0: sel = 6'b000001;
-            S1: sel = 6'b000010;
-            S2: sel = 6'b000100;
-            S3: sel = 6'b001000;
-            S4: sel = 6'b010000;
-            S5: sel = 6'b100000;
-            default: sel = 6'b000000;
+            S0: sel = 7'b0000001;
+            S1: sel = 7'b0000010;
+            S2: sel = 7'b0000100;
+            S3: sel = 7'b0001000;
+            S4: sel = 7'b0010000;
+            S5: sel = 7'b0100000;
+            S6: sel = 7'b1000000;
+            default: sel = 7'b000000;
         endcase
     assign S0_HSEL = sel[0];
     assign S1_HSEL = sel[1];
@@ -71,11 +78,12 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
     assign S3_HSEL = sel[3];
     assign S4_HSEL = sel[4];
     assign S5_HSEL = sel[5];
+    assign S6_HSEL = sel[6];
 
     // The Slave MUX Selection Saving
     always@(posedge HCLK or negedge HRESETn) begin
         if(~HRESETn) begin
-            sel_d <= 6'b000000;
+            sel_d <= 7'b000000;
         end else if(HTRANS[1] & HREADY) begin
             sel_d <= sel;
         end
@@ -87,14 +95,16 @@ module ahbl_splitter_4 #(parameter  S0=4'h0,
                         (sel_d[3])  ?   S3_HREADYOUT :
                         (sel_d[4])  ?   S4_HREADYOUT :
                         (sel_d[5])  ?   S5_HREADYOUT :
+                        (sel_d[6])  ?   S6_HREADYOUT :
                         1'b1;
 
-    assign HRDATA =   (sel_d[0])  ?   S0_HRDATA :
+    assign HRDATA =     (sel_d[0])  ?   S0_HRDATA :
                         (sel_d[1])  ?   S1_HRDATA :
                         (sel_d[2])  ?   S2_HRDATA :
                         (sel_d[3])  ?   S3_HRDATA :
                         (sel_d[4])  ?   S4_HRDATA :
                         (sel_d[5])  ?   S5_HRDATA :
+                        (sel_d[6])  ?   S6_HRDATA :
                         32'hBADDBEEF;
 
 endmodule

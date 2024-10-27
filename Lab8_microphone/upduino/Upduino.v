@@ -3,6 +3,9 @@ module Upduino(
   output wire led_blue , // Blue
   output wire led_green,  // Green 
   output wire tx,
+  output wire WS,
+  output wire BCLK,
+  input wire DIN
 );
     reg int_osc;
     SB_HFOSC u_SB_LFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
@@ -37,6 +40,9 @@ module Upduino(
         .GPIO_IN_C(GPIO_IN_C),
 
         .UART_TX(tx),
+        .WS(WS),
+        .BCLK(BCLK),
+        .DIN(DIN)
 
     );
 

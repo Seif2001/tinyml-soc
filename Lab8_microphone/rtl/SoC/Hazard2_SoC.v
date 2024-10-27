@@ -6,6 +6,7 @@
         - 1 UART
         - 1 timer
         - 1 multiplier
+        - 1 I2S
 
     The Memory Map:
         - 0x0000_0000 - 0x0000_1FFF : Program Memory
@@ -14,6 +15,7 @@
         - 0x5000_0000 : UART
         - 0x6000_0000 : TIMER
         - 0x7000_0000 : multiplier
+        - 0x8000_0000 : I2S
 */
 
 module Hazard2_SoC (
@@ -30,7 +32,11 @@ module Hazard2_SoC (
     output wire [31:0]  GPIO_OE_C,
     input wire  [31:0]   GPIO_IN_C,
 
-    output wire         UART_TX
+    output wire         UART_TX,
+
+    output wire         WS,
+    output wire         BCLK,
+    input  wire         DIN
 
 );
 
@@ -42,9 +48,9 @@ module Hazard2_SoC (
     wire        HREADY;
     wire [31:0] HRDATA;
 
-    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA, S4_HRDATA, S5_HRDATA;
-    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL, S4_HSEL, S5_HSEL;
-    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT, S4_HREADYOUT, S5_HREADYOUT;
+    wire [31:0] S0_HRDATA, S1_HRDATA, S2_HRDATA, S3_HRDATA, S4_HRDATA, S5_HRDATA, S6_HRDATA;
+    wire        S0_HSEL, S1_HSEL, S2_HSEL, S3_HSEL, S4_HSEL, S5_HSEL, S6_HSEL;
+    wire        S0_HREADYOUT, S1_HREADYOUT, S2_HREADYOUT, S3_HREADYOUT, S4_HREADYOUT, S5_HREADYOUT, S6_HREADYOUT;
 
     wire GP_A_HREADYOUT, GP_B_HREADYOUT, GP_C_HREADYOUT;
     wire [31:0] GP_A_HRDATA, GP_B_HRDATA, GP_C_HRDATA;
@@ -184,6 +190,8 @@ module Hazard2_SoC (
         .tx(UART_TX)
     );
 
+
+
     ahbl_counter COUNTER (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
@@ -200,13 +208,32 @@ module Hazard2_SoC (
 
     );
 
+    ahbl_i2s I2S (
+        .HCLK(HCLK),
+        .HRESETn(HRESETn),
+
+        .HADDR(HADDR),
+        .HTRANS(HTRANS),
+        .HSIZE(HSIZE),
+        .HWRITE(HWRITE),
+        .HREADY(HREADY),
+        .HSEL(S6_HSEL),
+        .HWDATA(HWDATA),
+        .HREADYOUT(S6_HREADYOUT),
+        .HRDATA(S6_HRDATA),
+        .WS(WS),
+        .BCLK(BCLK),
+        .DIN(DIN)
+    );
+
 
     ahbl_splitter_4 # ( .S0(4'h0),     // Program Memory
                         .S1(4'h2),     // Data Memory
                         .S2(4'h4),     // GPIO Port
                         .S3(4'h5),     // uart
                         .S4(4'h6),      // timer
-                        .S5(4'h7)      // accelerator
+                        .S5(4'h7),      // accelerator
+                        .S6(4'h8)      // multiplier
     ) SPLITTER (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
@@ -238,7 +265,11 @@ module Hazard2_SoC (
 
         .S5_HSEL(S5_HSEL),
         .S5_HRDATA(S5_HRDATA),
-        .S5_HREADYOUT(S5_HREADYOUT)
+        .S5_HREADYOUT(S5_HREADYOUT),
+
+        .S6_HSEL(S6_HSEL),
+        .S6_HRDATA(S6_HRDATA),
+        .S6_HREADYOUT(S6_HREADYOUT)
 
     );
 

@@ -1,6 +1,6 @@
 #include"../include/time.h"
-
 Timer timer;
+
 
 void initialize_timer(){
     timer.ctrl_counter   =(INT32U*) 0x60000000;
@@ -18,12 +18,12 @@ void _start_timer(INT32U prescaler){
 }
 
 
-INT32U* start_timer(INT32U prescaler){
+Timer start_timer(INT32U prescaler){
     *(timer.ps_counter) = prescaler;
     *(timer.cfg_counter) = 0x00000003;
     *(timer.ctrl_counter) = 0x00000001;
     *(timer.load_counter) = 0x11111111;
-    return timer.timer_counter;
+    return timer;
 }
 
 
@@ -35,11 +35,11 @@ void delay(INT32U ms){
     *(timer.ctrl_counter) = 0x00000000;
 }
 
-INT32U* get_timer_counter(){
-    return timer.timer_counter;
+INT32U get_timer_counter(){
+    return *timer.timer_counter;
 }
 
-INT32U* end_timer(){
+INT32U end_timer(){
     *(timer.ctrl_counter )= 0x00000000;
-    return timer.timer_counter;
+    return *timer.timer_counter;
 }

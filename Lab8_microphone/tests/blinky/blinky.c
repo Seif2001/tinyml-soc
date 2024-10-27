@@ -12,12 +12,12 @@ int main(){
     // output something
     
     *gpio_data_2 = 0x00000003;
-    // unsigned int* led = 0;
-    // while(1){
-    //     *led++;
-    //     *gpio_data_2 = *led;
-    //     for(volatile int i = 0; i < 1000000; i++);
-    // }
+    unsigned int* led = 0;
+    while(1){
+        *led++;
+        *gpio_data_2 = *led;
+        for(volatile int i = 0; i < 1000000; i++);
+    }
 
     return 0;
 }

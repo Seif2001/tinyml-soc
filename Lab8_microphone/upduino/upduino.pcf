@@ -20,9 +20,9 @@ set_io -nowarn spi_miso 14 # Shared with the flash
 # Normal GPIO pins, left side
 set_io -nowarn gpio_23 23
 set_io -nowarn tx 25
-set_io -nowarn gpio_26 26
-set_io -nowarn gpio_27 27
-set_io -nowarn gpio_32 32
+set_io -nowarn WS 26
+set_io -nowarn BCLK 27
+set_io -nowarn DIN 32
 set_io -nowarn gpio_35 35
 set_io -nowarn gpio_31 31
 set_io -nowarn gpio_37 37

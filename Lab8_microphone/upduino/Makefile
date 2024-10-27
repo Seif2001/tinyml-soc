@@ -4,7 +4,7 @@
 # On Linux, copy the included upduinov3.rules to /etc/udev/rules.d/ so that we don't have
 # to use sudo to flash the bit file.
 # Thanks to thanhtranhd for making changes to thsi makefile.
-VFILES=Upduino.v ../rtl/cpu/hazard2_cpu.v ../rtl/cpu/Hazard2.v ../rtl/SoC/Hazard2_SoC.v ../rtl/SoC/ahbl_splitter_4.v ../rtl/memory/ahbl_ram.v ../rtl/memory/ahbl_rom.v ../rtl/gpio/ahbl_gpio.v ../rtl/gpio/ahbl_gpio_splitter.v ../rtl/uart/ahbl_uart.v ../rtl/uart/uart_tx.v ../rtl/uart/serial_terminal.v ../rtl/timer/ahbl_counter.v ../rtl/timer/counter.v ../rtl/timer/prescaler_counter.v ../rtl/accelerator/multiplier.v ../rtl/accelerator/ahbl_mult.v
+VFILES=Upduino.v ../rtl/cpu/hazard2_cpu.v ../rtl/cpu/Hazard2.v ../rtl/SoC/Hazard2_SoC.v ../rtl/SoC/ahbl_splitter_4.v ../rtl/memory/ahbl_ram.v ../rtl/memory/ahbl_rom.v ../rtl/gpio/ahbl_gpio.v ../rtl/gpio/ahbl_gpio_splitter.v ../rtl/uart/ahbl_uart.v ../rtl/uart/uart_tx.v ../rtl/uart/serial_terminal.v ../rtl/timer/ahbl_counter.v ../rtl/timer/counter.v ../rtl/timer/prescaler_counter.v ../rtl/accelerator/multiplier.v ../rtl/accelerator/ahbl_mult.v ../rtl/i2s/ahbl_i2s.v ../rtl/i2s/i2s.v
 upduino.bin: upduino.asc
 	icepack upduino.asc upduino.bin
 
