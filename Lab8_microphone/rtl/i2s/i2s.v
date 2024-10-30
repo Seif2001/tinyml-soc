@@ -5,7 +5,7 @@ module i2s(
     output BCLK,
     input DIN,
     output reg done,
-    output reg [size*2 -1:0] data,
+    output reg [size -1:0] data,
     input en,
     input ack_data,
     input ack_done
@@ -13,8 +13,8 @@ module i2s(
 
 reg BCLK_d, WS_d;
 localparam size = 32;
-reg [$clog2(size):0] bit_count;
-reg [size*2 -1 : 0] shift_reg;
+reg [$clog2(size) -1:0] bit_count;
+reg [size -1 : 0] shift_reg;
 
 
 // WS
@@ -58,13 +58,13 @@ end
 
 always @(posedge clk, negedge rst_n) begin
      if (!rst_n) begin
-        shift_reg <= 64'd0;
+        shift_reg <= 32'd0;
     end
     else if(en && BCLK_d) begin
-        if(bit_count < (size*2) -1) begin 
-            shift_reg <= {shift_reg[(size*2) -2 : 0],DIN};
+        if(bit_count < size -1) begin 
+            shift_reg <= {shift_reg[size -2 : 0],DIN};
         end
-        else shift_reg <= 64'd0;
+        else shift_reg <= 32'd0;
     end
 end
 
@@ -75,7 +75,7 @@ always @(posedge clk, negedge rst_n) begin
         done <= 0;
     end
     else if(en) begin
-        if(bit_count == (size*2) -1) begin
+        if(bit_count == size -1) begin
             done <= 1;
         end
         else if(ack_done) begin
@@ -90,7 +90,7 @@ always @(posedge clk, negedge rst_n) begin
         data <= 0;
     end
     else if(en) begin
-        if(bit_count == (size*2) -1) begin
+        if(bit_count == size -1) begin
             data <= shift_reg;
         end
         else if(ack_data) begin
