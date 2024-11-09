@@ -15,18 +15,32 @@ reg BCLK_d, WS_d;
 localparam size = 32;
 reg [$clog2(size) -1:0] bit_count;
 reg [size -1 : 0] shift_reg;
-
-
+reg [5:0] WS_cntr;
+reg [1:0] BCLK_cntr;
+wire WS_cntr_zero = WS_cntr == 6'b000000;
+wire cntr_two = BCLK_cntr == 2'b10;
 // WS
 always @(posedge clk, negedge rst_n) begin
     if(!rst_n) begin
         WS_d <= 0;
     end
     else if(en) begin
-        if(bit_count >= size) begin
-            WS_d <= 1;
+        if(WS_cntr_zero && cntr_two) begin
+            WS_d <= !WS_d;
         end
-        else WS_d <= 0;
+    end
+end
+
+// WS counter
+
+always @(posedge clk, negedge rst_n) begin
+    if(!rst_n) begin
+        WS_cntr <= 0;
+    end
+    else if(en) begin
+        if (cntr_two) begin
+            WS_cntr <= WS_cntr + 1;
+        end
     end
 end
 
@@ -37,22 +51,26 @@ always @(posedge clk, negedge rst_n) begin
         BCLK_d <= 0;
     end
     else if(en) begin
-        BCLK_d <= !BCLK_d;
-    end
-end
-
-// bit_counter 
-
-always @(posedge clk, negedge rst_n) begin
-     if (!rst_n) begin
-        bit_count <= 0;
-    end
-    else if(en) begin
-        if(BCLK_d) begin 
-            bit_count <= bit_count + 1;
+        if(cntr_two) begin
+            BCLK_d <= ~BCLK_d;
         end
     end
 end
+
+// bclk counter
+
+always@(posedge clk, negedge rst_n) begin
+    if(!rst_n) begin
+        BCLK_cntr <= 0;
+    end
+    else if(en) begin
+        if(cntr_two) begin
+            BCLK_cntr <= 0;
+        end
+        else BCLK_cntr <= BCLK_cntr + 1;
+    end
+end
+
 
 // shift register
 
@@ -60,11 +78,10 @@ always @(posedge clk, negedge rst_n) begin
      if (!rst_n) begin
         shift_reg <= 32'd0;
     end
-    else if(en && BCLK_d) begin
-        if(bit_count < size -1) begin 
+    else if(en) begin
+        if(!WS && BCLK_cntr == 0 && !BCLK) begin 
             shift_reg <= {shift_reg[size -2 : 0],DIN};
         end
-        else shift_reg <= 32'd0;
     end
 end
 
@@ -75,7 +92,7 @@ always @(posedge clk, negedge rst_n) begin
         done <= 0;
     end
     else if(en) begin
-        if(bit_count == size -1) begin
+        if(WS_cntr_zero) begin
             done <= 1;
         end
         else if(ack_done) begin
@@ -90,7 +107,7 @@ always @(posedge clk, negedge rst_n) begin
         data <= 0;
     end
     else if(en) begin
-        if(bit_count == size -1) begin
+        if(WS_cntr_zero) begin
             data <= shift_reg;
         end
         else if(ack_data) begin

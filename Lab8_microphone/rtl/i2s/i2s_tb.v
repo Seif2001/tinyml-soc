@@ -3,7 +3,7 @@ module i2s_tb;
     reg rst_n = 0;
     wire WS;
     wire BCLK;
-    reg DIN;
+    wire DIN;
     wire done;
     wire [31:0] data;
     reg en;
@@ -18,6 +18,14 @@ module i2s_tb;
         .done(done),
         .data(data),
         .en(en)
+    );
+
+    i2s_test tb (
+        .WS(WS),
+        .BCLK(BCLK),
+        .DIN(DIN),
+        .en(en),
+        .rst_n(rst_n)
     );
 
     always #10 clk = !clk;
@@ -36,18 +44,17 @@ module i2s_tb;
 
     initial begin
         en = 0;
-        DIN = 0;
         wait(rst_n == 1'b1);
         @(posedge clk);
         en = 1;
-        #10000;
+        #100000;
         $finish;
     end
 
-    always@(posedge clk or WS) begin
-        if(WS) 
-            DIN = 1;
-    end
+    // always@(posedge clk or WS) begin
+    //     if(WS) 
+    //         DIN = 1;
+    // end
 
 
 

@@ -16,6 +16,10 @@ module Hazard2_SoC_tb;
 
     wire        UART_TX;
 
+    wire        BCLK;
+    wire        WS;
+    wire        DIN;
+
 
     
     
@@ -54,7 +58,10 @@ module Hazard2_SoC_tb;
         .GPIO_OE_C(GPIO_OE_C),
         .GPIO_IN_C(GPIO_IN_C),
 
-        .UART_TX(UART_TX)
+        .UART_TX(UART_TX),
+        .BCLK(BCLK),
+        .WS(WS),
+        .DIN(DIN)
     );
 
     // Simulate the GPIO
@@ -77,6 +84,17 @@ module Hazard2_SoC_tb;
         .rx(UART_TX),           
         .baud_div(10)  
     );
+
+    // Test i2s
+    i2s_test i2s_tb (
+        .WS(WS),
+        .BCLK(BCLK),
+        .DIN(DIN),
+        .en(1'b1),
+        .rst_n(HRESETn)
+    );
+
+
 
     // FInish when yoiu see a special pattern on the GPIO
     always@* begin

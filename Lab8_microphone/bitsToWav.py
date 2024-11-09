@@ -3,7 +3,7 @@ import wave
 import struct
 
 # Configuration parameters
-SERIAL_PORT = '/dev/ttyUSB1'  # Replace with your actual serial port
+SERIAL_PORT = '/dev/ttyUSB3'  # Replace with your actual serial port
 BAUD_RATE = 600000            # Ensure this matches the baud rate used by your device
 WAV_FILE = 'output.wav'
 SAMPLE_RATE = 16000           # 16 kHz
@@ -30,8 +30,16 @@ with wave.open(WAV_FILE, 'wb') as wav_file:
     for _ in range(num_samples):
         # Read 2 bytes (16-bit sample) from the serial port
         sample = ser.read(SAMPLE_WIDTH)
-        # Write the sample to the WAV file
-        wav_file.writeframesraw(sample)
+
+        if len(sample) == SAMPLE_WIDTH:
+            # Unpack the 2 bytes as a 16-bit signed short (little-endian)
+            sample_value = struct.unpack('<h', sample)[0]
+
+            # Convert the sample to byte data (packed into little-endian format)
+            packed_sample = struct.pack('<h', sample_value)
+
+            # Write the sample to the WAV file
+            wav_file.writeframesraw(packed_sample)
 
     print("Recording complete.")
 
