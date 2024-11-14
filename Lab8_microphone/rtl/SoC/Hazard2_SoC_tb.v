@@ -82,7 +82,7 @@ module Hazard2_SoC_tb;
         .clk(HCLK),             
         .rst_n(HRESETn),           
         .rx(UART_TX),           
-        .baud_div(10)  
+        .baud_div(3)  
     );
 
     // Test i2s
