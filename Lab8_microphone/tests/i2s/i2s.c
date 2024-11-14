@@ -15,8 +15,9 @@ volatile unsigned int* i2s_data = (volatile unsigned int *) 0x80000008;
 int main(){
     
     *i2s_en = 1;
-    uart_init(9);
+    uart_init(3);
     int i = 3000000 * 10;
+    *gpio_oe_2 = 0xFFFFFFFF;
     volatile char c1;
     volatile char c2;
     volatile char c3;
@@ -25,9 +26,9 @@ int main(){
         while(*i2s_done == 0);
         //store i2s data
         x = *i2s_data;
-        c1 =  (x >> 16) & 0xff;
-        c2 = (x >>24) & 0xff;
-        //i2s_data_buffer[i+3] = *i2s_data;
+        *gpio_data_2 = x;
+        c1 = (x >> 24) & 0xff;
+        c2 = (x >> 16) & 0xff;
 
         uart_putc(c1);
         uart_putc(c2);

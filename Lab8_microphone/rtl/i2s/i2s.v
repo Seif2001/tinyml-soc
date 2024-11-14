@@ -98,6 +98,7 @@ always @(posedge clk, negedge rst_n) begin
         else if(ack_done) begin
             done <= 0;
         end
+        else done <= 0;
     end
 end
 

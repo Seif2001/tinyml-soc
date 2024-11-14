@@ -1,15 +1,15 @@
 module multiplier(
     input wire clk,
     input wire rst_n,
-    input wire [5:0] a,
-    input wire [5:0] b,
+    input wire [4:0] a,
+    input wire [4:0] b,
     output wire [11:0] p
 );
 
     reg [11:0] p_d;
     always @(posedge clk, negedge rst_n) begin
         if (!rst_n) begin
-            p_d <= 8'h0;
+            p_d <= 4'h0;
         end else begin
             p_d <= a * b;
         end
