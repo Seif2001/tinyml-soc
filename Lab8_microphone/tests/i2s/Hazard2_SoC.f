@@ -17,3 +17,4 @@
 ../../rtl/i2s/ahbl_i2s.v
 ../../rtl/i2s/i2s.v
 ../../rtl/i2s/i2s_test.v
+../../rtl/i2s/tmr.v

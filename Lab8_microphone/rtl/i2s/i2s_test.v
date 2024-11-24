@@ -7,7 +7,7 @@ module i2s_test (
     input en, 
     input rst_n
 );
-    reg [31:0] test_array [7:0];  // Array for storing 32-bit values
+    reg [32:0] test_array [127:0];  // Array for storing 32-bit values
 
     initial begin
         $readmemh("/home/seif/dev/projects/tinyml-soc/Lab8_microphone/rtl/i2s/test.hex", test_array);  // Load data from test.hex file
@@ -35,7 +35,7 @@ module i2s_test (
             
             if (i == 31) begin
                 i <= 0;
-                j <= (j + 1) % 8;  // Reset j to 0 after reaching 7
+                j <= (j + 1) % 128;  // Reset j to 0 after reaching 7
                 $display("j: %d", j);
             end else begin
                 i <= i + 1;

@@ -6,9 +6,7 @@ module i2s(
     input DIN,
     output reg done,
     output reg [size -1:0] data,
-    input en,
-    input ack_data,
-    input ack_done
+    input en
 );
 
 reg BCLK_d, WS_d;
@@ -17,6 +15,10 @@ reg [$clog2(size) -1:0] bit_count;
 reg [size -1 : 0] shift_reg;
 reg [5:0] WS_cntr;
 reg [1:0] BCLK_cntr;
+reg [1:0] done_cntr;
+
+wire done_cntr_zero = done_cntr == 2'b00;
+
 wire WS_cntr_zero = WS_cntr == 6'b000000;
 wire cntr_two = BCLK_cntr == 2'b10;
 // WS
@@ -27,9 +29,12 @@ always @(posedge clk, negedge rst_n) begin
     else if(en) begin
         if(WS_cntr_zero && cntr_two) begin
             WS_d <= !WS_d;
+            
         end
     end
 end
+
+
 
 // WS counter
 
@@ -92,34 +97,29 @@ always @(posedge clk, negedge rst_n) begin
         done <= 0;
     end
     else if(en) begin
-        if(WS_cntr_zero) begin
+        if(WS_cntr_zero && cntr_two) begin
             done <= 1;
-        end
-        else if(ack_done) begin
-            done <= 0;
         end
         else done <= 0;
     end
 end
 
 // data
+
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
         data <= 0;
     end
     else if(en) begin
-        if(WS_cntr_zero) begin
-            data <= shift_reg;
-        end
-        else if(ack_data) begin
+        if(WS_cntr_zero && cntr_two) begin
             data <= shift_reg;
         end
     end
 end
+
 
 assign WS = WS_d;
 assign BCLK = BCLK_d;
 
 
 endmodule
-

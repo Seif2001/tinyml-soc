@@ -16,9 +16,9 @@ module Hazard2_SoC_tb;
 
     wire        UART_TX;
 
-    wire        BCLK;
+    wire        SCK;
     wire        WS;
-    wire        DIN;
+    wire        SD;
 
 
     
@@ -59,9 +59,9 @@ module Hazard2_SoC_tb;
         .GPIO_IN_C(GPIO_IN_C),
 
         .UART_TX(UART_TX),
-        .BCLK(BCLK),
+        .SCK(SCK),
         .WS(WS),
-        .DIN(DIN)
+        .SD(SD)
     );
 
     // Simulate the GPIO
@@ -88,8 +88,8 @@ module Hazard2_SoC_tb;
     // Test i2s
     i2s_test i2s_tb (
         .WS(WS),
-        .BCLK(BCLK),
-        .DIN(DIN),
+        .BCLK(SCK),
+        .DIN(SD),
         .en(1'b1),
         .rst_n(HRESETn)
     );

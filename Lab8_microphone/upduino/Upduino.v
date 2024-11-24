@@ -41,8 +41,8 @@ module Upduino(
 
         .UART_TX(tx),
         .WS(WS),
-        .BCLK(BCLK),
-        .DIN(DIN)
+        .SCK(BCLK),
+        .SD(DIN)
 
     );
 

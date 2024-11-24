@@ -1,8 +1,8 @@
 module multiplier(
     input wire clk,
     input wire rst_n,
-    input wire [4:0] a,
-    input wire [4:0] b,
+    input wire [2:0] a,
+    input wire [2:0] b,
     output wire [11:0] p
 );
 

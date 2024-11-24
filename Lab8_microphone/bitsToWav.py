@@ -3,13 +3,13 @@ import wave
 import struct
 
 # Configuration parameters
-SERIAL_PORT = '/dev/ttyUSB0'  # Replace with your actual serial port
+SERIAL_PORT = '/dev/ttyUSB1'  # Replace with your actual serial port
 BAUD_RATE = 1500000            # Ensure this matches the baud rate used by your device
 WAV_FILE = 'output.wav'
 SAMPLE_RATE = 15625           # 16 kHz
 CHANNELS = 1                  # Mono
 SAMPLE_WIDTH = 2              # 16-bit PCM is 2 bytes per sample
-DURATION = 10                # Duration of recording in seconds (adjust as needed)
+DURATION = 5                # Duration of recording in seconds (adjust as needed)
 
 # Open the serial port
 ser = serial.Serial(SERIAL_PORT, BAUD_RATE)

@@ -35,8 +35,8 @@ module Hazard2_SoC (
     output wire         UART_TX,
 
     output wire         WS,
-    output wire         BCLK,
-    input  wire         DIN
+    output wire         SCK,
+    input  wire         SD
 
 );
 
@@ -222,8 +222,8 @@ module Hazard2_SoC (
         .HREADYOUT(S6_HREADYOUT),
         .HRDATA(S6_HRDATA),
         .WS(WS),
-        .BCLK(BCLK),
-        .DIN(DIN)
+        .SCK(SCK),
+        .SD(SD)
     );
 
 
