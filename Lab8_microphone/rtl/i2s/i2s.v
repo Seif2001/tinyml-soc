@@ -5,29 +5,28 @@ module i2s(
     output BCLK,
     input DIN,
     output reg done,
-    output reg [size -1:0] data,
+    output [size -1:0] data,
     input en
 );
 
 reg BCLK_d, WS_d;
 localparam size = 32;
-reg [$clog2(size) -1:0] bit_count;
 reg [size -1 : 0] shift_reg;
 reg [5:0] WS_cntr;
 reg [1:0] BCLK_cntr;
 reg [1:0] done_cntr;
 
 wire done_cntr_zero = done_cntr == 2'b00;
-
-wire WS_cntr_zero = WS_cntr == 6'b000000;
+wire WS_cntr_zero = WS_cntr == 6'b111111;
 wire cntr_two = BCLK_cntr == 2'b10;
+
 // WS
 always @(posedge clk, negedge rst_n) begin
     if(!rst_n) begin
         WS_d <= 0;
     end
     else if(en) begin
-        if(WS_cntr_zero && cntr_two) begin
+        if(WS_cntr_zero && BCLK_cntr == 0 ) begin
             WS_d <= !WS_d;
             
         end
@@ -84,7 +83,7 @@ always @(posedge clk, negedge rst_n) begin
         shift_reg <= 32'd0;
     end
     else if(en) begin
-        if(!WS && BCLK_cntr == 0 && !BCLK) begin 
+        if( BCLK_cntr == 0 && !BCLK) begin 
             shift_reg <= {shift_reg[size -2 : 0],DIN};
         end
     end
@@ -104,22 +103,11 @@ always @(posedge clk, negedge rst_n) begin
     end
 end
 
-// data
-
-always @(posedge clk, negedge rst_n) begin
-    if (!rst_n) begin
-        data <= 0;
-    end
-    else if(en) begin
-        if(WS_cntr_zero && cntr_two) begin
-            data <= shift_reg;
-        end
-    end
-end
-
 
 assign WS = WS_d;
 assign BCLK = BCLK_d;
+
+assign data = shift_reg;
 
 
 endmodule

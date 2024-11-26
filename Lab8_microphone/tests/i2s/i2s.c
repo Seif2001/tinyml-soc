@@ -23,7 +23,6 @@ int main() {
         while (*i2s_done != 0x00000003); // Wait for I2S data to be ready
 
         x = *i2s_data; // Read 32-bit I2S data
-        *i2s_done = 0x0; // Clear the "done" flag
 
         *gpio_data_2 = x; // Output the data to GPIO for debugging
 
