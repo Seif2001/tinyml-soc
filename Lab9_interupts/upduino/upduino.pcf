@@ -23,7 +23,7 @@ set_io -nowarn tx 25
 set_io -nowarn WS 26
 set_io -nowarn BCLK 27
 set_io -nowarn DIN 32
-set_io -nowarn gpio_35 35
+set_io -nowarn I2S_IRQ 35
 set_io -nowarn gpio_31 31
 set_io -nowarn gpio_37 37
 set_io -nowarn gpio_34 34

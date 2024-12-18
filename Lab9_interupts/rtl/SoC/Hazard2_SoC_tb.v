@@ -19,6 +19,7 @@ module Hazard2_SoC_tb;
     wire        SCK;
     wire        WS;
     wire        SD;
+    reg        I2S_IRQ_1;
 
 
     
@@ -30,6 +31,7 @@ module Hazard2_SoC_tb;
     // Reset
     initial begin
         HRESETn = 0;
+        I2S_IRQ_1 = 0;
         #47;
         @(posedge HCLK);
         HRESETn = 1;
@@ -61,7 +63,8 @@ module Hazard2_SoC_tb;
         .UART_TX(UART_TX),
         .SCK(SCK),
         .WS(WS),
-        .SD(SD)
+        .SD(SD),
+        .I2S_IRQ(I2S_IRQ_1)
     );
 
     // Simulate the GPIO
@@ -94,12 +97,18 @@ module Hazard2_SoC_tb;
         .rst_n(HRESETn)
     );
 
+    initial begin
+        #3500;
+        I2S_IRQ_1 = 1;
+        #10;
+        I2S_IRQ_1 = 0;
+    end
 
 
     // FInish when yoiu see a special pattern on the GPIO
     always@* begin
         $display("GPIO TEST %h time %t", GPIO_OUT_C, $time);
-
+        
         if (GPIO_OUT_C == 32'd15) begin
             #1000;
             $display("Test Passed");

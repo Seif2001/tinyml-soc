@@ -17,7 +17,8 @@
 
         input  wire        SD,
         output wire        SCK,
-        output wire        WS
+        output wire        WS,
+        output wire        IRQ
     );
 
         localparam  CTRL_REG_OFF    = 'h00,
@@ -128,6 +129,8 @@ end
             .BCLK(SCK),
             .WS(WS)
         );
+    
+    assign IRQ = rdy;
     
 
     endmodule

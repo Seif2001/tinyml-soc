@@ -5,7 +5,7 @@
 // Peripheral memory-mapped addresses
 volatile unsigned int* gpio_data_2 = (volatile unsigned int*) 0x42000000;
 volatile unsigned int* gpio_oe_2 = (volatile unsigned int*) 0x42000004;
-
+    
 volatile unsigned int* i2s_en = (volatile unsigned int*) 0x80000000;
 volatile unsigned int* i2s_done = (volatile unsigned int*) 0x80000004;
 volatile unsigned int* i2s_data = (volatile unsigned int*) 0x80000008;

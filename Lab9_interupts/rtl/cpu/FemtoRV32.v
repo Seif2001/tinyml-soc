@@ -33,7 +33,7 @@
 `define NRV_OPTIMIZE "-O3"
 `define NRV_INTERRUPTS
 
-module FemtoRV32 #(parameter MULDIV=0, CYC=0, SHIFT=1, ADDR_WIDTH=16, E=1) (
+module FemtoRV32 #(parameter MULDIV=0, CYC=0, SHIFT=1, ADDR_WIDTH=16, E=0) (
     input           clk,
     input           rst_n,     // set to 0 to rst_n the processor
     output [31:0]   mem_addr,  // address bus

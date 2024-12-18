@@ -1,5 +1,5 @@
-../../rtl/cpu/hazard2_cpu.v 
-../../rtl/cpu/Hazard2.v 
+../../rtl/cpu/FemtoRV32.v 
+../../rtl/cpu/FRV_AHBL.v 
 ../../rtl/SoC/Hazard2_SoC.v 
 ../../rtl/SoC/ahbl_splitter_4.v 
 ../../rtl/memory/ahbl_ram.v 

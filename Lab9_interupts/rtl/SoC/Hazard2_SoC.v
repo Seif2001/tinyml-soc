@@ -36,7 +36,8 @@ module Hazard2_SoC (
 
     output wire         WS,
     output wire         SCK,
-    input  wire         SD
+    input  wire         SD,
+    input wire          I2S_IRQ
 
 );
 
@@ -55,8 +56,9 @@ module Hazard2_SoC (
     wire GP_A_HREADYOUT, GP_B_HREADYOUT, GP_C_HREADYOUT;
     wire [31:0] GP_A_HRDATA, GP_B_HRDATA, GP_C_HRDATA;
     wire GP_A_SEL, GP_B_SEL, GP_C_SEL;
+    wire I2S_IRQ_1;
 
-    Hazard2 CPU (
+    FRV_AHBL CPU (
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -66,7 +68,8 @@ module Hazard2_SoC (
         .HWRITE(HWRITE),
         .HWDATA(HWDATA),
         .HREADY(HREADY),
-        .HRDATA(HRDATA)
+        .HRDATA(HRDATA),
+        .IRQ(I2S_IRQ)
     );
 
     ahbl_mult MULTIPLY (
@@ -223,7 +226,8 @@ module Hazard2_SoC (
         .HRDATA(S6_HRDATA),
         .WS(WS),
         .SCK(SCK),
-        .SD(SD)
+        .SD(SD),
+        .IRQ(I2S_IRQ_1)
     );
 
 
