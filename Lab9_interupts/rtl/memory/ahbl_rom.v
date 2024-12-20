@@ -45,6 +45,7 @@ module ahbl_rom (
 
     assign HRDATA = RAM[HADDR_d[A_WIDTH-1 : 2]];
 
+
     assign HREADYOUT = 1'b1; // Always ready
 
     initial begin

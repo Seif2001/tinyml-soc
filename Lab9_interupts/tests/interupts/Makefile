@@ -11,7 +11,7 @@ sim: interupts.vvp
 
 # Compile Verilog files and testbench into a vvp file for simulation
 interupts.vvp: $(VFILES) $(TBFILES) interupts.hex
-	iverilog -f $(VFILES) -o interupts.vvp $(TBFILES)
+	iverilog -f $(VFILES) -o interupts.vvp -g2005-sv $(TBFILES)
 
 # Generate interupts.hex file from interupts.elf
 interupts.hex: interupts.elf

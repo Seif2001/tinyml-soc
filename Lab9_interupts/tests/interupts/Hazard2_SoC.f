@@ -1,7 +1,6 @@
 ../../rtl/cpu/FemtoRV32.v 
 ../../rtl/cpu/FRV_AHBL.v 
 ../../rtl/SoC/Hazard2_SoC.v 
-../../rtl/SoC/ahbl_splitter_4.v 
 ../../rtl/memory/ahbl_ram.v 
 ../../rtl/memory/ahbl_rom.v 
 ../../rtl/gpio/ahbl_gpio.v
@@ -20,4 +19,12 @@
 ../../rtl/i2s/tmr.v
 ../../rtl/fifo/i2s_fifo.v
 ../../rtl/fifo/aucohl_fifo.v
+../../rtl/bus/ahbl_arbiter.v
+../../rtl/bus/ahbl_splitter.v
+../../rtl/bus/ahbl_crossbar.v
+../../rtl/bus/oneshot_mux.v
+../../rtl/bus/oneshot_priority.v
+../../rtl/bus/ahbl_splitter_4.v 
+../../rtl/dma/ahbl_dmac.sv
+../../rtl/dma/dmac_master.sv
 
