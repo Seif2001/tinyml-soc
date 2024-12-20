@@ -10,8 +10,9 @@ volatile unsigned int* i2s_en = (volatile unsigned int*) 0x80000000;
 volatile unsigned int* i2s_done = (volatile unsigned int*) 0x80000004;
 volatile unsigned int* i2s_data = (volatile unsigned int*) 0x80000008;
 
+
 int main() {
-    *i2s_en = 0x00000009; // Enable I2S with specific configuration
+    *i2s_en = 0x00000003; // Enable I2S with specific configuration
     uart_init(3);         // Initialize UART with a baud rate setting
     int i = 3000000 * 10; // Number of iterations for the main loop
     *gpio_oe_2 = 0xFFFFFFFF; // Enable all GPIO pins as outputs

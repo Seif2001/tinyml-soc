@@ -18,3 +18,6 @@
 ../../rtl/i2s/i2s.v
 ../../rtl/i2s/i2s_test.v
 ../../rtl/i2s/tmr.v
+../../rtl/fifo/i2s_fifo.v
+../../rtl/fifo/aucohl_fifo.v
+

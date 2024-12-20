@@ -19,7 +19,6 @@ module Hazard2_SoC_tb;
     wire        SCK;
     wire        WS;
     wire        SD;
-    reg        I2S_IRQ_1;
 
 
     
@@ -31,7 +30,6 @@ module Hazard2_SoC_tb;
     // Reset
     initial begin
         HRESETn = 0;
-        I2S_IRQ_1 = 0;
         #47;
         @(posedge HCLK);
         HRESETn = 1;
@@ -41,7 +39,7 @@ module Hazard2_SoC_tb;
     initial begin
         $dumpfile("Hazard2_SoC_tb.vcd");
         $dumpvars(0, Hazard2_SoC_tb);
-        #1_000_00;
+        #1_900_00;
         $display("Test Failed: Timeout");
         $finish;
     end
@@ -63,9 +61,8 @@ module Hazard2_SoC_tb;
         .UART_TX(UART_TX),
         .SCK(SCK),
         .WS(WS),
-        .SD(SD),
-        .I2S_IRQ(I2S_IRQ_1)
-    );
+        .SD(SD)
+);
 
     // Simulate the GPIO
     tri [31:0] PORT_A;
@@ -96,13 +93,6 @@ module Hazard2_SoC_tb;
         .en(1'b1),
         .rst_n(HRESETn)
     );
-
-    initial begin
-        #3500;
-        I2S_IRQ_1 = 1;
-        #10;
-        I2S_IRQ_1 = 0;
-    end
 
 
     // FInish when yoiu see a special pattern on the GPIO

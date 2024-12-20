@@ -24,9 +24,9 @@ module tmr #(parameter SZ=16)(
         if(!rst_n)
             divcntr <= 'b0;
         else if(en_pulse)
-            divcntr <= clkdiv - 1;
+            divcntr <= clkdiv;
         else if(divcntrzero)
-            divcntr <= clkdiv - 1;
+            divcntr <= clkdiv;
         else if(en)
             divcntr <= divcntr - 'b1;
 

@@ -5,7 +5,8 @@ module Upduino(
   output wire tx,
   output wire WS,
   output wire BCLK,
-  input wire DIN
+  input wire DIN,
+  input wire I2S_IRQ
 );
     reg int_osc;
     SB_HFOSC u_SB_LFOSC (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
@@ -42,7 +43,8 @@ module Upduino(
         .UART_TX(tx),
         .WS(WS),
         .SCK(BCLK),
-        .SD(DIN)
+        .SD(DIN),
+        .I2S_IRQ(I2S_IRQ)
 
     );
 
