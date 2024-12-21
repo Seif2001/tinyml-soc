@@ -381,20 +381,20 @@ module Hazard2_SoC (
     // prot, resp, burst, lock unused
     wire TIMER_HPROT, TIMER_HRESP, TIMER_HBURST, TIMER_HLOCK;
 
-    ahbl_counter TIMER (
-        .HCLK(HCLK),
-        .HRESETn(HRESETn),
+    // ahbl_counter TIMER (
+    //     .HCLK(HCLK),
+    //     .HRESETn(HRESETn),
 
-        .HADDR(TIMER_HADDR),
-        .HTRANS(TIMER_HTRANS),
-        .HSIZE(TIMER_HSIZE),
-        .HWRITE(TIMER_HWRITE),
-        .HREADY(TIMER_HREADY),
-        .HSEL(TIMER_HSEL),
-        .HWDATA(TIMER_HWDATA),
-        .HREADYOUT(TIMER_HREADYOUT),
-        .HRDATA(TIMER_HRDATA)
-    );
+    //     .HADDR(TIMER_HADDR),
+    //     .HTRANS(TIMER_HTRANS),
+    //     .HSIZE(TIMER_HSIZE),
+    //     .HWRITE(TIMER_HWRITE),
+    //     .HREADY(TIMER_HREADY),
+    //     .HSEL(TIMER_HSEL),
+    //     .HWDATA(TIMER_HWDATA),
+    //     .HREADYOUT(TIMER_HREADYOUT),
+    //     .HRDATA(TIMER_HRDATA)
+    // );
 
     // I2S 0x8000_0000
 

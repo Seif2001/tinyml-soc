@@ -76,7 +76,7 @@ Disassembly of section .text:
   e0:	02010413          	addi	s0,sp,32
   e4:	200007b7          	lui	a5,0x20000
   e8:	0087a783          	lw	a5,8(a5) # 20000008 <i2s_en>
-  ec:	00900713          	li	a4,9
+  ec:	00300713          	li	a4,3
   f0:	00e7a023          	sw	a4,0(a5)
   f4:	00300513          	li	a0,3
   f8:	340000ef          	jal	438 <uart_init>

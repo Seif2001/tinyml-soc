@@ -1,8 +1,8 @@
 import serial
 
 # Configuration parameters
-SERIAL_PORT = '/dev/ttyUSB1'  # Replace with your actual serial port
-BAUD_RATE = 600000            # Should match the baud rate of the microcontroller
+SERIAL_PORT = '/dev/ttyUSB0'  # Replace with your actual serial port
+BAUD_RATE = 1500000            # Should match the baud rate of the microcontroller
 
 # Open the serial port
 ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)

@@ -59,6 +59,7 @@ i2s_vad vad_inst (
     .rst_n(rst_n),
     .sample(sample),
     .rdy(rdy),
+    .WS(WS),
     .led_output(led_output)
 );
 

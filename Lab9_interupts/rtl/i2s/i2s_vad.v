@@ -3,6 +3,7 @@ module i2s_vad(
     input wire rst_n,
     input wire [31:0] sample,     // I2S parallel sample (32-bit)
     input wire rdy,               // New sample ready
+    input wire WS,
     output reg led_output         // LED output for speech detection
 );
 
@@ -22,13 +23,13 @@ module i2s_vad(
             reg_energy_40 <= 32'd0;
             sample_count <= 7'd0;
             led_output <= 1'b0;
-        end else if (rdy) begin
+        end else if (rdy && WS) begin
             // Add energy of the current sample to the full 80-sample window
-            reg_energy_80 <= reg_energy_80 + sample * sample;
+            reg_energy_80 <= reg_energy_80 + $unsigned(sample);
 
             // Accumulate energy into the first 40-sample register
             if (sample_count < HALF_WINDOW) begin
-                reg_energy_40 <= reg_energy_40 + sample * sample;
+                reg_energy_40 <= reg_energy_40 + $unsigned(sample);
             end
 
             // Increment sample count

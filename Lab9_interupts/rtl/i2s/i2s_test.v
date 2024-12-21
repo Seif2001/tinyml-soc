@@ -10,7 +10,7 @@ module i2s_test (
     reg [32:0] test_array [127:0];  // Array for storing 32-bit values
 
     initial begin
-        $readmemh("/home/seif/dev/projects/tinyml-soc/Lab8_microphone/rtl/i2s/test.hex", test_array);  // Load data from test.hex file
+        $readmemh("/home/seif/dev/projects/tinyml-soc/Lab9_interupts/rtl/i2s/test.hex", test_array);  // Load data from test.hex file
     end
 
     integer i = 0;

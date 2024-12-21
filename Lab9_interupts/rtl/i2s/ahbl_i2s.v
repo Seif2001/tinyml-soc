@@ -111,29 +111,15 @@ reg [5:0] interrupt_counter; // 4-bit counter for 16 interrupts
 always @(posedge HCLK or negedge HRESETn) begin
     if (!HRESETn) begin
         irq_reg <= 1'b0;
-        full_d1 <= 1'b0;
-        interrupt_counter <= 4'd0;
     end else begin
-        if (irq_reg ) begin
-            // Full condition detected
+        if(full) begin
+            irq_reg <= 1'b1;
+        end
+        if(empty) begin
             irq_reg <= 1'b0;
-        end else begin
-            if (full && interrupt_counter == 6'd0) begin
-                // First full condition triggers the first interrupt
-                irq_reg <= 1'b1;
-                interrupt_counter <= 6'd63; // Set counter for 15 additional interrupts
-            end else if (interrupt_counter > 0) begin
-                // Generate additional interrupts
-                irq_reg <= 1'b1;
-                interrupt_counter <= interrupt_counter - 1;
-            end else begin
-                // No more interrupts, keep irq_reg low
-                irq_reg <= 1'b0;
-            end
         end
 
         // Update the previous value of full
-        full_d1 <= full;
     end
 end
 

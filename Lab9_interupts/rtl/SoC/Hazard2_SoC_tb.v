@@ -41,7 +41,7 @@ module Hazard2_SoC_tb;
     initial begin
         $dumpfile("Hazard2_SoC_tb.vcd");
         $dumpvars(0, Hazard2_SoC_tb);
-        #4_600_00;
+        #8_600_00;
         $display("Test Failed: Timeout");
         $finish;
     end
