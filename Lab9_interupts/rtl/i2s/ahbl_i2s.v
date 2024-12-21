@@ -50,7 +50,6 @@
         wire ahbl_we            = HTRANS_d[1] & HSEL_d & HWRITE_d;
         wire ahbl_re            = HTRANS_d[1] & HSEL_d & !HWRITE_d;
         wire rdy;
-
         always @(posedge HCLK) begin
             if(!HRESETn) begin
                 HADDR_d     <= 'h0;
@@ -87,7 +86,7 @@
                         STATUS_REG_OFF_SEL ? {31'h0, empty}    :
                         32'hBADDBEEF;
     
-        wire rd = ahbl_re & DATA_REG_SEL;
+        wire rd = ahbl_re && DATA_REG_SEL;
         always@(posedge HCLK, negedge HRESETn) begin
             if(!HRESETn)
                 DATA_REG<=32'd0;
@@ -104,22 +103,41 @@
 
 reg full_d1;  // Register to store previous value of full
 
+// Interrupt logic with 16-depth tracking
+reg [5:0] interrupt_counter; // 4-bit counter for 16 interrupts
+
 always @(posedge HCLK or negedge HRESETn) begin
     if (!HRESETn) begin
         irq_reg <= 1'b0;
         full_d1 <= 1'b0;
+        interrupt_counter <= 4'd0;
     end else begin
-        // Detect rising edge of 'full' signal
-        if (full & ~full_d1) begin
-            irq_reg <= 1'b1;  // Pulse irq_reg high when 'full' goes high
+        if (irq_reg ) begin
+            // Full condition detected
+            irq_reg <= 1'b0;
         end else begin
-            irq_reg <= 1'b0;  // Reset irq_reg on the next clock cycle
+            if (full && interrupt_counter == 6'd0) begin
+                // First full condition triggers the first interrupt
+                irq_reg <= 1'b1;
+                interrupt_counter <= 6'd63; // Set counter for 15 additional interrupts
+            end else if (interrupt_counter > 0) begin
+                // Generate additional interrupts
+                irq_reg <= 1'b1;
+                interrupt_counter <= interrupt_counter - 1;
+            end else begin
+                // No more interrupts, keep irq_reg low
+                irq_reg <= 1'b0;
+            end
         end
 
-        // Update previous value of full for the next cycle
+        // Update the previous value of full
         full_d1 <= full;
     end
 end
+
+
+assign IRQ = irq_reg;
+
     assign IRQ = irq_reg;
     i2s_fifo i2s (
         .clk(HCLK),

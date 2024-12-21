@@ -1,4 +1,4 @@
-module i2s_fifo #(parameter DW=32, AW=5)(
+module i2s_fifo #(parameter DW=32, AW=4)(
     input wire clk,
     input wire rst_n,
     input wire en,

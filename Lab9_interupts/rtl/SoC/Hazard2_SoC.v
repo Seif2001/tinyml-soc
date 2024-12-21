@@ -55,7 +55,7 @@ module Hazard2_SoC (
     wire GP_A_HREADYOUT, GP_B_HREADYOUT, GP_C_HREADYOUT;
     wire [31:0] GP_A_HRDATA, GP_B_HRDATA, GP_C_HRDATA;
     wire GP_A_SEL, GP_B_SEL, GP_C_SEL;
-    wire I2S_IRQ;
+    wire I2S_IRQ, DMA_IRQ;
     // crossbar parameters
     localparam  N_MASTERS= 2;
     localparam N_SLAVES = 7;
@@ -113,7 +113,7 @@ module Hazard2_SoC (
         .HWDATA(CPU_HWDATA),
         .HREADY(CPU_HREADY),
         .HRDATA(CPU_HRDATA),
-        .IRQ(I2S_IRQ)
+        .IRQ(DMA_IRQ)
     );
 
     // DMA_M 
@@ -158,7 +158,7 @@ module Hazard2_SoC (
         .mHWDATA(DMA_M_HWDATA),
         .mHREADY(DMA_M_HREADY),
         .mHRDATA(DMA_M_HRDATA),
-
+        .PIRQ(I2S_IRQ),
 
         .sHADDR(DMA_S_HADDR),
         .sHTRANS(DMA_S_HTRANS),
@@ -168,7 +168,8 @@ module Hazard2_SoC (
         .sHREADY(DMA_S_HREADY),
         .sHSEL(DMA_S_HSEL),
         .sHREADYOUT(DMA_S_HREADYOUT),
-        .sHRDATA(DMA_S_HRDATA)
+        .sHRDATA(DMA_S_HRDATA),
+        .IRQ(DMA_IRQ)
     );
 
     // slaves
