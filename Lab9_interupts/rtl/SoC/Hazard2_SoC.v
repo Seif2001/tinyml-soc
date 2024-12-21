@@ -33,6 +33,7 @@ module Hazard2_SoC (
     input wire  [31:0]   GPIO_IN_C,
 
     output wire         UART_TX,
+    output wire         led_output,
 
     output wire         WS,
     output wire         SCK,
@@ -426,7 +427,8 @@ module Hazard2_SoC (
         .WS(WS),
         .SCK(SCK),
         .SD(SD),
-        .IRQ(I2S_IRQ)
+        .IRQ(I2S_IRQ),
+        .led_output(led_output)
     );
 
     

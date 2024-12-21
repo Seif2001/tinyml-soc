@@ -18,7 +18,9 @@
         input  wire        SD,
         output wire        SCK,
         output wire        WS,
-        output wire        IRQ
+        output wire        IRQ,
+
+        output wire        led_output
     );
 
         localparam  CTRL_REG_OFF    = 'h00,
@@ -149,7 +151,8 @@ assign IRQ = irq_reg;
         .rd(rd),
         .SCK(SCK),
         .WS(WS),
-        .SD(SD)
+        .SD(SD),
+        .led_output(led_output)
     );
         
 

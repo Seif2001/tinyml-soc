@@ -8,7 +8,8 @@ module i2s_fifo #(parameter DW=32, AW=4)(
     input wire rd,
     output wire SCK,
     output wire WS,
-    input wire SD
+    input wire SD,
+    output wire led_output
 );
 
 // i2s signals
@@ -51,6 +52,14 @@ aucohl_fifo #(DW, AW) fifo (
     .full(full),
     .rdata(rdata),
     .level(level)
+);
+
+i2s_vad vad_inst (
+    .clk(clk),
+    .rst_n(rst_n),
+    .sample(sample),
+    .rdy(rdy),
+    .led_output(led_output)
 );
 
 endmodule

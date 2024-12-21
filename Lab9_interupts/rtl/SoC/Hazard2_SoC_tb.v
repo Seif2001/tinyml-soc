@@ -16,6 +16,8 @@ module Hazard2_SoC_tb;
 
     wire        UART_TX;
 
+    wire        led_output;
+
     wire        SCK;
     wire        WS;
     wire        SD;
@@ -59,6 +61,7 @@ module Hazard2_SoC_tb;
         .GPIO_IN_C(GPIO_IN_C),
 
         .UART_TX(UART_TX),
+        .led_output(led_output),
         .SCK(SCK),
         .WS(WS),
         .SD(SD)

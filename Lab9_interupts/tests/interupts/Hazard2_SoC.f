@@ -27,4 +27,4 @@
 ../../rtl/bus/ahbl_splitter_4.v 
 ../../rtl/dma/ahbl_dmac.sv
 ../../rtl/dma/dmac_master.sv
-
+../../rtl/i2s/i2s_vad.v 
